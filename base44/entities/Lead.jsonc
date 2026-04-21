@@ -1,0 +1,69 @@
+{
+  "name": "Lead",
+  "type": "object",
+  "properties": {
+    "first_name": {
+      "type": "string"
+    },
+    "last_name": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "location": {
+      "type": "string"
+    },
+    "source": {
+      "type": "string"
+    },
+    "services_interested": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "dog_name": {
+      "type": "string"
+    },
+    "breed": {
+      "type": "string"
+    },
+    "situation": {
+      "type": "string"
+    },
+    "is_military": {
+      "type": "boolean",
+      "default": false
+    },
+    "payment_preference": {
+      "type": "string"
+    },
+    "urgency": {
+      "type": "string"
+    },
+    "promo_code": {
+      "type": "string"
+    },
+    "notes": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "new",
+        "contacted",
+        "booked",
+        "completed"
+      ],
+      "default": "new"
+    }
+  },
+  "required": [
+    "first_name",
+    "email"
+  ]
+}

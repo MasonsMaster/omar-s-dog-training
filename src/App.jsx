@@ -5,7 +5,15 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import PageNotFound from './lib/PageNotFound';
 import { AuthProvider, useAuth } from '@/lib/AuthContext';
 import UserNotRegisteredError from '@/components/UserNotRegisteredError';
-// Add page imports here
+import SiteLayout from '@/components/layout/SiteLayout';
+import Home from '@/pages/Home';
+import Services from '@/pages/Services';
+import Shop from '@/pages/Shop';
+import Booking from '@/pages/Booking';
+import MasonChat from '@/pages/MasonChat';
+import Apply from '@/pages/Apply';
+import Dashboard from '@/pages/Dashboard';
+import Legal from '@/pages/Legal';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -33,8 +41,17 @@ const AuthenticatedApp = () => {
   // Render the main app
   return (
     <Routes>
-      {/* Add your page Route elements here */}
-      <Route path="*" element={<PageNotFound />} />
+      <Route element={<SiteLayout />}>
+        <Route path="/" element={<Home />} />
+        <Route path="/services" element={<Services />} />
+        <Route path="/shop" element={<Shop />} />
+        <Route path="/booking" element={<Booking />} />
+        <Route path="/mason" element={<MasonChat />} />
+        <Route path="/apply" element={<Apply />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/legal/:page" element={<Legal />} />
+        <Route path="*" element={<PageNotFound />} />
+      </Route>
     </Routes>
   );
 };
