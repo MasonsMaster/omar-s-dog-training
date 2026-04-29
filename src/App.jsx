@@ -14,6 +14,7 @@ import MasonChat from '@/pages/MasonChat';
 import Apply from '@/pages/Apply';
 import Dashboard from '@/pages/Dashboard';
 import Legal from '@/pages/Legal';
+import Leads from '@/pages/Leads';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -50,6 +51,7 @@ const AuthenticatedApp = () => {
         <Route path="/apply" element={<Apply />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/legal/:page" element={<Legal />} />
+        <Route path="/leads" element={<Leads />} />
         <Route path="*" element={<PageNotFound />} />
       </Route>
     </Routes>
