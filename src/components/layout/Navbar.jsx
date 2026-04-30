@@ -12,6 +12,7 @@ const NAV_LINKS = [
   { to: "/mason", label: "Mason AI" },
   { to: "/dashboard", label: "Dashboard" },
   { to: "/my-dashboard", label: "My Portal" },
+  { to: "/account", label: "My Account" },
   { to: "/pricing", label: "Pricing" },
   { to: "/contact", label: "Contact" },
   { to: "/leads", label: "🐾 Leads" },

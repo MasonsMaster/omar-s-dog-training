@@ -36,6 +36,30 @@
     },
     "vaccination_current": {
       "type": "boolean"
+    },
+    "vaccinations": {
+      "type": "array",
+      "description": "List of vaccination records",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "e.g. Rabies, DHPP, Bordetella"
+          },
+          "date_given": {
+            "type": "string",
+            "format": "date"
+          },
+          "expiry_date": {
+            "type": "string",
+            "format": "date"
+          },
+          "vet_name": {
+            "type": "string"
+          }
+        }
+      }
     }
   },
   "required": [
