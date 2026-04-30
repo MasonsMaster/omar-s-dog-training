@@ -1,91 +1,219 @@
+import { useQuery } from '@tanstack/react-query';
+import { base44 } from '@/api/base44Client';
 import {
-  RadialBarChart, RadialBar, ResponsiveContainer, Tooltip,
-  AreaChart, Area, XAxis, YAxis, CartesianGrid,
-  BarChart, Bar, Cell, Legend
-} from "recharts";
+  LineChart,
+  Line,
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from 'recharts';
+import { parseISO, format } from 'date-fns';
+import { TrendingUp, Award, Zap, AlertCircle } from 'lucide-react';
 
-function sessionPct(s) {
-  return s.sessions_total ? Math.round((s.sessions_completed / s.sessions_total) * 100) : 0;
-}
+export default function ProgressChart({ clientEmail }) {
+  const { data: sessions = [] } = useQuery({
+    queryKey: ['progress-sessions-detailed', clientEmail],
+    queryFn: () =>
+      base44.entities.TrainingSession.filter(
+        { client_email: clientEmail },
+        'session_date',
+        200
+      ),
+    enabled: !!clientEmail,
+  });
 
-// Build a synthetic week-by-week timeline from start_date → today
-function buildTimeline(schedule) {
-  if (!schedule.start_date || !schedule.sessions_total) return [];
-  const start = new Date(schedule.start_date);
-  const today = new Date();
-  const totalWeeks = Math.max(1, Math.ceil((today - start) / (7 * 24 * 60 * 60 * 1000)));
-  const perWeek = schedule.sessions_completed / totalWeeks;
-  return Array.from({ length: totalWeeks }, (_, i) => ({
-    week: `Wk ${i + 1}`,
-    sessions: Math.min(schedule.sessions_total, Math.round(perWeek * (i + 1))),
-    goal: Math.min(schedule.sessions_total, Math.round((schedule.sessions_total / totalWeeks) * (i + 1))),
-  }));
-}
+  const { data: milestones = [] } = useQuery({
+    queryKey: ['behavior-milestones', clientEmail],
+    queryFn: () =>
+      base44.entities.BehaviorMilestone.filter(
+        { client_email: clientEmail },
+        '-earned_date',
+        100
+      ),
+    enabled: !!clientEmail,
+  });
 
-const COLORS = ["hsl(4,60%,40%)", "hsl(180,50%,20%)", "hsl(40,70%,50%)", "hsl(270,50%,50%)"];
+  // Build session performance timeline
+  const sessionTimeline = sessions
+    .filter(s => s.session_date && s.overall_session_rating)
+    .map(s => ({
+      date: format(parseISO(s.session_date), 'MMM d'),
+      rating: s.overall_session_rating,
+      sessionNum: s.session_number,
+      handlerRating: s.handler_responsiveness_rating,
+      dogBehavior: s.dog_behavior_rating,
+    }))
+    .slice(0, 30);
 
-export default function ProgressChart({ schedules, homework }) {
-  if (!schedules.length && !homework.length) {
-    return (
-      <div className="text-center py-16 text-muted-foreground text-sm">
-        No training data yet. Your progress will appear here after sessions begin.
-      </div>
-    );
-  }
+  // Calculate trend (improvement over time)
+  const calculateTrend = () => {
+    if (sessionTimeline.length < 2) return null;
+    const first3 = sessionTimeline.slice(0, 3).reduce((sum, s) => sum + s.rating, 0) / Math.min(3, sessionTimeline.length);
+    const last3 = sessionTimeline.slice(-3).reduce((sum, s) => sum + s.rating, 0) / Math.min(3, sessionTimeline.length);
+    const improvement = last3 - first3;
+    return {
+      trend: improvement > 0 ? 'up' : improvement < 0 ? 'down' : 'stable',
+      change: Math.abs(improvement).toFixed(1),
+    };
+  };
 
-  // Radial data — session completion per dog
-  const radialData = schedules
-    .filter(s => s.sessions_total > 0)
-    .map((s, i) => ({
-      name: s.dog_name || s.program,
-      value: sessionPct(s),
-      fill: COLORS[i % COLORS.length],
-    }));
+  const trend = calculateTrend();
 
-  // Homework completion bar data
-  const hwByDog = schedules.map(s => {
-    const tasks = homework.filter(h => h.schedule_id === s.id || h.client_email === s.client_email);
-    const done = tasks.filter(h => h.completed).length;
-    return { name: s.dog_name || s.program, done, pending: tasks.length - done, total: tasks.length };
-  }).filter(d => d.total > 0);
-
-  // Timeline for first schedule with data
-  const timelineSchedule = schedules.find(s => s.sessions_total > 0 && s.start_date);
-  const timelineData = timelineSchedule ? buildTimeline(timelineSchedule) : [];
+  // Handler vs Dog performance comparison
+  const handlerDogComparison = sessions
+    .filter(s => s.handler_responsiveness_rating && s.dog_behavior_rating && s.session_date)
+    .map(s => ({
+      session: `S${s.session_number || sessions.indexOf(s) + 1}`,
+      handler: s.handler_responsiveness_rating,
+      dog: s.dog_behavior_rating,
+    }))
+    .slice(-15);
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
+      {/* Trend indicator */}
+      {trend && (
+        <div className={`bg-card border rounded-2xl p-4 flex items-center gap-4 ${
+          trend.trend === 'up' ? 'border-green-500/30 bg-green-50' : 'border-border'
+        }`}>
+          <div className={`p-3 rounded-lg ${trend.trend === 'up' ? 'bg-green-100' : 'bg-amber-100'}`}>
+            <TrendingUp className={`w-5 h-5 ${trend.trend === 'up' ? 'text-green-600' : 'text-amber-600'}`} />
+          </div>
+          <div>
+            <p className="text-sm font-semibold">
+              {trend.trend === 'up' ? '📈 Great Progress!' : trend.trend === 'down' ? '📉 Working Through Challenges' : '➡️ Steady Pace'}
+            </p>
+            <p className="text-xs text-muted-foreground">
+              Average rating change: {trend.trend === 'up' ? '+' : ''}{trend.change} points
+            </p>
+          </div>
+        </div>
+      )}
 
-      {/* Session Progress — Radial */}
-      {radialData.length > 0 && (
+      {/* Session Performance Timeline */}
+      {sessionTimeline.length > 0 && (
         <div className="bg-card border border-border rounded-2xl p-6">
-          <h3 className="font-bold text-sm mb-1">Session Completion</h3>
-          <p className="text-xs text-muted-foreground mb-6">Overall progress per program</p>
-          <div className="flex flex-wrap items-center gap-8 justify-center">
-            {radialData.map((d, i) => (
-              <div key={i} className="flex flex-col items-center gap-2">
-                <div className="relative w-28 h-28">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <RadialBarChart
-                      innerRadius="65%"
-                      outerRadius="100%"
-                      data={[{ ...d, full: 100 }]}
-                      startAngle={90}
-                      endAngle={-270}
-                    >
-                      <RadialBar dataKey="full" fill="hsl(var(--muted))" cornerRadius={8} background={false} />
-                      <RadialBar dataKey="value" fill={d.fill} cornerRadius={8} />
-                    </RadialBarChart>
-                  </ResponsiveContainer>
-                  <div className="absolute inset-0 flex flex-col items-center justify-center">
-                    <span className="text-xl font-black">{d.value}%</span>
+          <h3 className="font-bold text-sm mb-4">Performance Trend Over Time</h3>
+          <ResponsiveContainer width="100%" height={350}>
+            <LineChart data={sessionTimeline}>
+              <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+              <XAxis
+                dataKey="date"
+                stroke="hsl(var(--muted-foreground))"
+                style={{ fontSize: '12px' }}
+                tick={{ angle: -45, textAnchor: 'end', height: 60 }}
+              />
+              <YAxis
+                domain={[0, 10]}
+                stroke="hsl(var(--muted-foreground))"
+                style={{ fontSize: '12px' }}
+              />
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: 'hsl(var(--card))',
+                  border: '1px solid hsl(var(--border))',
+                }}
+                labelStyle={{ color: 'hsl(var(--foreground))' }}
+              />
+              <Legend />
+              <Line
+                type="monotone"
+                dataKey="rating"
+                stroke="hsl(var(--primary))"
+                strokeWidth={3}
+                dot={{ fill: 'hsl(var(--primary))', r: 4 }}
+                activeDot={{ r: 6 }}
+                name="Overall Rating"
+              />
+              <Line
+                type="monotone"
+                dataKey="dogBehavior"
+                stroke="hsl(var(--chart-2))"
+                strokeWidth={2}
+                dot={{ fill: 'hsl(var(--chart-2))', r: 3 }}
+                name="Dog Behavior"
+                strokeDasharray="5 5"
+              />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
+      )}
+
+      {/* Handler vs Dog Comparison */}
+      {handlerDogComparison.length > 0 && (
+        <div className="bg-card border border-border rounded-2xl p-6">
+          <h3 className="font-bold text-sm mb-4">Handler vs Dog Performance</h3>
+          <ResponsiveContainer width="100%" height={300}>
+            <BarChart data={handlerDogComparison}>
+              <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+              <XAxis
+                dataKey="session"
+                stroke="hsl(var(--muted-foreground))"
+                style={{ fontSize: '12px' }}
+              />
+              <YAxis
+                domain={[0, 10]}
+                stroke="hsl(var(--muted-foreground))"
+                style={{ fontSize: '12px' }}
+              />
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: 'hsl(var(--card))',
+                  border: '1px solid hsl(var(--border))',
+                }}
+                labelStyle={{ color: 'hsl(var(--foreground))' }}
+              />
+              <Legend />
+              <Bar dataKey="handler" fill="hsl(var(--primary))" name="Handler" radius={[8, 8, 0, 0]} />
+              <Bar dataKey="dog" fill="hsl(var(--chart-2))" name="Dog" radius={[8, 8, 0, 0]} />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+      )}
+
+      {/* Milestone Timeline */}
+      {milestones.length > 0 && (
+        <div className="bg-card border border-border rounded-2xl p-6">
+          <h3 className="font-bold text-sm mb-4">Behavior Milestones Achieved</h3>
+          <div className="space-y-3">
+            {milestones.slice(0, 10).map((m, idx) => (
+              <div key={m.id} className="flex gap-4 pb-3 border-b border-border last:border-0">
+                <div className="flex-shrink-0 pt-1">
+                  {m.milestone_type === '7_day_streak' && (
+                    <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                      <Zap className="w-5 h-5 text-primary" />
+                    </div>
+                  )}
+                  {m.milestone_type === 'mastery_level' && (
+                    <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center">
+                      <Award className="w-5 h-5 text-green-600" />
+                    </div>
+                  )}
+                  {m.milestone_type === 'improvement_trend' && (
+                    <div className="w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center">
+                      <TrendingUp className="w-5 h-5 text-amber-600" />
+                    </div>
+                  )}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="font-semibold text-sm">{m.behavior_name}</div>
+                  <p className="text-xs text-muted-foreground">{m.description}</p>
+                  <div className="flex items-center gap-3 mt-1 text-[10px] text-muted-foreground">
+                    <span>
+                      {m.milestone_type === '7_day_streak' && `${m.consecutive_days}-day streak`}
+                      {m.milestone_type === 'mastery_level' && `Level ${m.mastery_level}`}
+                      {m.milestone_type === 'improvement_trend' && 'Improvement trend'}
+                    </span>
+                    <span>+{m.xp_earned} XP</span>
                   </div>
                 </div>
-                <div className="text-center">
-                  <div className="text-xs font-bold">{d.name}</div>
-                  <div className="text-[10px] text-muted-foreground" style={{ color: d.fill }}>
-                    {schedules[i]?.sessions_completed ?? 0} / {schedules[i]?.sessions_total ?? 0} sessions
-                  </div>
+                <div className="text-right text-[10px] text-muted-foreground pt-1">
+                  {format(parseISO(m.earned_date), 'MMM d')}
                 </div>
               </div>
             ))}
@@ -93,56 +221,16 @@ export default function ProgressChart({ schedules, homework }) {
         </div>
       )}
 
-      {/* Session Timeline — Area Chart */}
-      {timelineData.length > 1 && (
-        <div className="bg-card border border-border rounded-2xl p-6">
-          <h3 className="font-bold text-sm mb-1">Sessions Over Time</h3>
-          <p className="text-xs text-muted-foreground mb-6">
-            {timelineSchedule.dog_name || timelineSchedule.program} — actual vs goal
+      {/* No data state */}
+      {sessionTimeline.length === 0 && milestones.length === 0 && (
+        <div className="text-center py-12 bg-card border border-dashed border-border rounded-2xl">
+          <AlertCircle className="w-10 h-10 text-muted-foreground mx-auto mb-3" />
+          <p className="text-sm font-semibold mb-1">No Progress Data Yet</p>
+          <p className="text-xs text-muted-foreground">
+            Complete training sessions to see performance charts and milestones.
           </p>
-          <ResponsiveContainer width="100%" height={200}>
-            <AreaChart data={timelineData} margin={{ top: 4, right: 8, left: -20, bottom: 0 }}>
-              <defs>
-                <linearGradient id="grad-actual" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="hsl(4,60%,40%)" stopOpacity={0.25} />
-                  <stop offset="95%" stopColor="hsl(4,60%,40%)" stopOpacity={0} />
-                </linearGradient>
-                <linearGradient id="grad-goal" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="hsl(180,50%,20%)" stopOpacity={0.15} />
-                  <stop offset="95%" stopColor="hsl(180,50%,20%)" stopOpacity={0} />
-                </linearGradient>
-              </defs>
-              <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-              <XAxis dataKey="week" tick={{ fontSize: 10 }} />
-              <YAxis tick={{ fontSize: 10 }} />
-              <Tooltip contentStyle={{ fontSize: 12, borderRadius: 8, border: "1px solid hsl(var(--border))" }} />
-              <Legend iconType="circle" iconSize={8} wrapperStyle={{ fontSize: 11 }} />
-              <Area type="monotone" dataKey="goal" name="Goal" stroke="hsl(180,50%,20%)" fill="url(#grad-goal)" strokeDasharray="4 2" strokeWidth={1.5} dot={false} />
-              <Area type="monotone" dataKey="sessions" name="Completed" stroke="hsl(4,60%,40%)" fill="url(#grad-actual)" strokeWidth={2} dot={{ r: 3, fill: "hsl(4,60%,40%)" }} />
-            </AreaChart>
-          </ResponsiveContainer>
         </div>
       )}
-
-      {/* Homework Bar Chart */}
-      {hwByDog.length > 0 && (
-        <div className="bg-card border border-border rounded-2xl p-6">
-          <h3 className="font-bold text-sm mb-1">Homework Milestones</h3>
-          <p className="text-xs text-muted-foreground mb-6">Completed vs pending tasks per program</p>
-          <ResponsiveContainer width="100%" height={180}>
-            <BarChart data={hwByDog} margin={{ top: 4, right: 8, left: -20, bottom: 0 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-              <XAxis dataKey="name" tick={{ fontSize: 10 }} />
-              <YAxis tick={{ fontSize: 10 }} />
-              <Tooltip contentStyle={{ fontSize: 12, borderRadius: 8, border: "1px solid hsl(var(--border))" }} />
-              <Legend iconType="circle" iconSize={8} wrapperStyle={{ fontSize: 11 }} />
-              <Bar dataKey="done" name="Completed" stackId="a" fill="hsl(4,60%,40%)" radius={[0, 0, 4, 4]} />
-              <Bar dataKey="pending" name="Pending" stackId="a" fill="hsl(var(--muted))" radius={[4, 4, 0, 0]} />
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
-      )}
-
     </div>
   );
 }

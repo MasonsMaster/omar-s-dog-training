@@ -3,6 +3,7 @@ import { base44 } from "@/api/base44Client";
 import { LineChart, Line, BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
 import { Trophy, Target, Clock, Zap, Loader2, TrendingUp } from "lucide-react";
 import { format, parseISO, startOfWeek, endOfWeek } from "date-fns";
+import ProgressChart from "./ProgressChart";
 
 function StatCard({ icon: Icon, label, value, unit, color }) {
   return (
@@ -109,6 +110,9 @@ export default function ProgressDashboard({ clientEmail, dogProfiles = [] }) {
 
   return (
     <div className="space-y-8">
+      {/* Advanced Charts */}
+      <ProgressChart clientEmail={clientEmail} />
+
       {/* Key Metrics */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <StatCard icon={Trophy} label="Level" value={userLevel?.current_level || 1} unit="" color="text-primary" />
