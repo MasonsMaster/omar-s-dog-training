@@ -9,6 +9,7 @@ import ClientRow from "@/components/trainer/ClientRow";
 import ClientDetailPanel from "@/components/trainer/ClientDetailPanel";
 import AnalyticsDashboard from "@/components/trainer/AnalyticsDashboard";
 import BillingView from "@/components/trainer/BillingView";
+import WeeklyReportStudio from "@/components/trainer/WeeklyReportStudio";
 import { Search, Users, ClipboardList, BookOpen, BarChart2, TrendingUp, DollarSign, Loader2, Shield } from "lucide-react";
 
 const TABS = [
@@ -182,7 +183,10 @@ export default function TrainerHub() {
 
         {/* Reports Tab */}
         {tab === "reports" && (
-          <ReportsView reports={reports} isLoading={loadingReports} />
+          <div>
+            <h2 className="font-bold text-lg mb-6">Weekly Report Studio</h2>
+            <WeeklyReportStudio clients={clients} />
+          </div>
         )}
 
         {/* Analytics Tab */}
