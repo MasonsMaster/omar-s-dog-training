@@ -10,10 +10,20 @@ const firebaseConfig = {
   appId: import.meta.env.VITE_FIREBASE_APP_ID,
 };
 
-const app = initializeApp(firebaseConfig);
-const messaging = getMessaging(app);
+let app;
+let messaging;
+
+// Only initialize Firebase if config is complete
+if (firebaseConfig.projectId && firebaseConfig.apiKey && firebaseConfig.appId) {
+  app = initializeApp(firebaseConfig);
+  messaging = getMessaging(app);
+}
 
 export async function requestNotificationPermission() {
+  if (!messaging) {
+    console.warn('Firebase not initialized - notification permission request skipped');
+    return null;
+  }
   try {
     const permission = await Notification.requestPermission();
     if (permission === 'granted') {
@@ -30,6 +40,7 @@ export async function requestNotificationPermission() {
 }
 
 export function onForegroundMessage(callback) {
+  if (!messaging) return () => {};
   return onMessage(messaging, (payload) => {
     console.log('Foreground message received:', payload);
     callback(payload);
