@@ -5,6 +5,7 @@ import FloatingMason from "../shared/FloatingMason";
 import CookieConsent from "../shared/CookieConsent";
 import MobileHeader from "../mobile/MobileHeader";
 import BottomTabs from "../mobile/BottomTabs";
+import NotificationPermissionPrompt from "../notifications/NotificationPermissionPrompt";
 import { motion } from "framer-motion";
 
 export default function SiteLayout() {
@@ -40,6 +41,7 @@ export default function SiteLayout() {
 
       <FloatingMason />
       <CookieConsent />
+      <NotificationPermissionPrompt />
     </div>
   );
 }

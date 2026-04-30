@@ -1,0 +1,32 @@
+{
+  "name": "NotificationToken",
+  "type": "object",
+  "properties": {
+    "client_email": {
+      "type": "string",
+      "description": "Email of the client"
+    },
+    "fcm_token": {
+      "type": "string",
+      "description": "Firebase Cloud Messaging device token"
+    },
+    "device_type": {
+      "type": "string",
+      "enum": [
+        "web",
+        "ios",
+        "android"
+      ],
+      "description": "Type of device"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether token is still active"
+    }
+  },
+  "required": [
+    "client_email",
+    "fcm_token"
+  ]
+}
