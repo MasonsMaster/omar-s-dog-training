@@ -60,18 +60,21 @@ export default function MasonChat() {
 
   const send = async (text) => {
     const m = (text || input).trim();
-    if (!m || loading || !conversation) return;
+    if (!m || loading || !conversation?.id) return;
     setInput("");
     setLoading(true);
     try {
-      const updated = await base44.agents.addMessage(conversation, {
+      await base44.agents.addMessage(conversation.id, {
         role: "user",
         content: m,
       });
+      // Fetch updated conversation
+      const updated = await base44.agents.getConversation(conversation.id);
       setConversation(updated);
       setMessages(updated.messages || []);
     } catch (e) {
-      console.error(e);
+      console.error("[MasonChat Error]", e);
+      setInput(m); // Restore input on error
     } finally {
       setLoading(false);
     }
