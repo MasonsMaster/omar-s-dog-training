@@ -5,7 +5,7 @@ import MembershipsSection from "@/components/home/MembershipsSection";
 import Testimonials from "@/components/home/Testimonials";
 import FAQSection from "@/components/home/FAQSection";
 import ServiceArea from "@/components/home/ServiceArea";
-import BookingSection from "@/components/home/BookingSection";
+import BookingSection from "@/components/home/BookingSection.jsx";
 
 export default function Home() {
   return (

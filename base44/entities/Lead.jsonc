@@ -51,6 +51,14 @@
     "notes": {
       "type": "string"
     },
+    "class_time": {
+      "type": "string",
+      "enum": [
+        "10:00 AM",
+        "12:00 PM"
+      ],
+      "description": "Which Saturday class slot the client booked"
+    },
     "status": {
       "type": "string",
       "enum": [

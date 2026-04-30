@@ -1,4 +1,4 @@
-import BookingSection from "@/components/home/BookingSection";
+import BookingSection from "@/components/home/BookingSection.jsx";
 import SectionBadge from "@/components/shared/SectionBadge";
 import FAQSection from "@/components/home/FAQSection";
 

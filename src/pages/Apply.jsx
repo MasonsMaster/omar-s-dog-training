@@ -26,6 +26,7 @@ export default function Apply() {
     location: "", source: "", services_interested: [],
     dog_name: "", breed: "", situation: "", is_military: false,
     payment_preference: "", urgency: "", promo_code: "", notes: "",
+    class_time: "",
   });
   const [submitting, setSubmitting] = useState(false);
 
@@ -57,6 +58,7 @@ export default function Apply() {
       location: "", source: "", services_interested: [],
       dog_name: "", breed: "", situation: "", is_military: false,
       payment_preference: "", urgency: "", promo_code: "", notes: "",
+      class_time: "",
     });
   };
 
@@ -138,6 +140,24 @@ export default function Apply() {
                 </button>
               ))}
             </div>
+            {form.services_interested.some((s) => s.includes("Saturday")) && (
+              <div>
+                <p className="text-sm font-semibold mb-2">🗓️ Which Saturday class time?</p>
+                <div className="flex gap-3">
+                  {["10:00 AM", "12:00 PM"].map((t) => (
+                    <button
+                      key={t}
+                      onClick={() => update("class_time", t)}
+                      className={`flex-1 py-3 rounded-xl text-sm font-bold border-2 transition-all ${
+                        form.class_time === t ? "border-primary bg-primary/5 text-primary" : "border-border hover:border-muted-foreground"
+                      }`}
+                    >
+                      {t}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
             <div className="grid grid-cols-2 gap-3">
               <Input placeholder="Dog's name" value={form.dog_name} onChange={(e) => update("dog_name", e.target.value)} />
               <Input placeholder="Breed" value={form.breed} onChange={(e) => update("breed", e.target.value)} />
