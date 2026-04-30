@@ -1,0 +1,46 @@
+{
+  "name": "GraduationCertificate",
+  "type": "object",
+  "properties": {
+    "client_email": {
+      "type": "string",
+      "description": "Client email"
+    },
+    "client_name": {
+      "type": "string",
+      "description": "Client full name"
+    },
+    "dog_name": {
+      "type": "string",
+      "description": "Dog's name"
+    },
+    "sessions_completed": {
+      "type": "number",
+      "description": "Number of sessions completed"
+    },
+    "average_rating": {
+      "type": "number",
+      "description": "Average session rating achieved"
+    },
+    "certificate_url": {
+      "type": "string",
+      "description": "URL to downloadable PDF certificate"
+    },
+    "issued_date": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When certificate was issued"
+    },
+    "email_sent_date": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When certificate email was sent"
+    }
+  },
+  "required": [
+    "client_email",
+    "dog_name",
+    "sessions_completed",
+    "average_rating"
+  ]
+}

@@ -19,6 +19,7 @@ import CalendlyBooking from "@/components/clientdash/CalendlyBooking";
 import CalendlySessionManager from "@/components/clientdash/CalendlySessionManager";
 import PullToRefresh from "@/components/mobile/PullToRefresh";
 import SessionFeedbackPrompt from "@/components/clientdash/SessionFeedbackPrompt";
+import GraduationCertificates from "@/components/clientdash/GraduationCertificates";
 import LevelCard from "@/components/gamification/LevelCard";
 import BadgeGallery from "@/components/gamification/BadgeGallery";
 import StreakDisplay from "@/components/gamification/StreakDisplay";
@@ -344,6 +345,10 @@ export default function ClientDashboard() {
           <div>
             <h2 className="font-bold text-lg mb-1">Your Achievements</h2>
             <p className="text-sm text-muted-foreground mb-5">Track your training journey with levels, XP, badges, and behavior mastery.</p>
+            <div className="mb-8">
+              <h3 className="font-bold text-base mb-4">Graduation Certificates</h3>
+              <GraduationCertificates clientEmail={email} />
+            </div>
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
               <div className="lg:col-span-1">
                 <LevelCard clientEmail={email} />
