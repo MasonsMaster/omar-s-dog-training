@@ -2,7 +2,9 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/lib/AuthContext";
 import SectionBadge from "@/components/shared/SectionBadge";
+import TrainingPricingGrid from "@/components/pricing/TrainingPricingGrid";
 import { Check, Zap, Shield, Star } from "lucide-react";
 
 const PLANS = [
@@ -190,6 +192,7 @@ function PlanCard({ plan, showMonthly }) {
 
 export default function Pricing() {
   const [showMonthly, setShowMonthly] = useState(false);
+  const { user, isAuthenticated } = useAuth();
 
   return (
     <div>
@@ -224,6 +227,22 @@ export default function Pricing() {
           </div>
         </div>
       </section>
+
+      {/* Tiered Training Programs */}
+      {isAuthenticated && user && (
+        <section className="max-w-7xl mx-auto px-6 py-16 bg-card border-y border-border">
+          <div className="text-center mb-10">
+            <SectionBadge>Structured Programs</SectionBadge>
+            <h2 className="font-heading text-2xl md:text-3xl mb-3">
+              Choose Your <span className="italic">Training Journey</span>
+            </h2>
+            <p className="text-muted-foreground text-sm max-w-lg mx-auto">
+              Tiered programs with progressive support, tracking, and mastery milestones.
+            </p>
+          </div>
+          <TrainingPricingGrid clientEmail={user.email} />
+        </section>
+      )}
 
       {/* Training Plans */}
       <section className="max-w-7xl mx-auto px-6 py-16">
