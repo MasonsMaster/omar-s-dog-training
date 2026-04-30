@@ -3,6 +3,7 @@ import {
   PieChart, Pie, Cell, Legend,
   AreaChart, Area,
 } from "recharts";
+import BehaviorHeatmap from "@/components/trainer/BehaviorHeatmap";
 
 const COLORS = [
   "hsl(4,60%,40%)",
@@ -138,6 +139,9 @@ export default function AnalyticsDashboard({ schedules, homework, behaviorLogs, 
         <StatCard label="Active Programs" value={activeSchedules.length} sub={`${completedSchedules.length} completed`} />
         <StatCard label="Behavior Logs" value={behaviorLogs.length} sub={`${reports.length} weekly reports`} />
       </div>
+
+      {/* Behavior Heatmap */}
+      <BehaviorHeatmap behaviorLogs={behaviorLogs} />
 
       {/* Top row: Behaviors + Mood */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
