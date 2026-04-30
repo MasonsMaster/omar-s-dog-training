@@ -7,13 +7,15 @@ import { Input } from "@/components/ui/input";
 import SectionBadge from "@/components/shared/SectionBadge";
 import ClientRow from "@/components/trainer/ClientRow";
 import ClientDetailPanel from "@/components/trainer/ClientDetailPanel";
-import { Search, Users, ClipboardList, BookOpen, BarChart2, Loader2, Shield } from "lucide-react";
+import AnalyticsDashboard from "@/components/trainer/AnalyticsDashboard";
+import { Search, Users, ClipboardList, BookOpen, BarChart2, TrendingUp, Loader2, Shield } from "lucide-react";
 
 const TABS = [
   { id: "clients", label: "Active Clients", icon: Users },
   { id: "schedules", label: "Schedules", icon: ClipboardList },
   { id: "homework", label: "Homework", icon: BookOpen },
   { id: "reports", label: "Weekly Reports", icon: BarChart2 },
+  { id: "analytics", label: "Analytics", icon: TrendingUp },
 ];
 
 export default function TrainerHub() {
@@ -179,6 +181,19 @@ export default function TrainerHub() {
         {/* Reports Tab */}
         {tab === "reports" && (
           <ReportsView reports={reports} isLoading={loadingReports} />
+        )}
+
+        {/* Analytics Tab */}
+        {tab === "analytics" && (
+          <div>
+            <h2 className="font-bold text-lg mb-6">Business Analytics</h2>
+            <AnalyticsDashboard
+              schedules={schedules}
+              homework={homework}
+              behaviorLogs={behaviorLogs}
+              reports={reports}
+            />
+          </div>
         )}
 
       </div>
