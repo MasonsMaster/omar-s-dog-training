@@ -1,0 +1,60 @@
+{
+  "name": "TrainingVideo",
+  "type": "object",
+  "properties": {
+    "client_email": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "video_url": {
+      "type": "string",
+      "description": "Uploaded video URL"
+    },
+    "schedule_id": {
+      "type": "string",
+      "description": "Optional reference to TrainingSchedule"
+    },
+    "dog_name": {
+      "type": "string"
+    },
+    "comments": {
+      "type": "array",
+      "description": "Timestamp-based comments from trainer or client",
+      "items": {
+        "type": "object",
+        "properties": {
+          "timestamp": {
+            "type": "number",
+            "description": "Video timestamp in seconds"
+          },
+          "text": {
+            "type": "string"
+          },
+          "author": {
+            "type": "string"
+          },
+          "author_email": {
+            "type": "string"
+          },
+          "is_trainer": {
+            "type": "boolean",
+            "default": false
+          },
+          "created_at": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "client_email",
+    "title",
+    "video_url"
+  ]
+}

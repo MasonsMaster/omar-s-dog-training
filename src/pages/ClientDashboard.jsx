@@ -7,12 +7,14 @@ import SectionBadge from "@/components/shared/SectionBadge";
 import ScheduleCard from "@/components/clientdash/ScheduleCard";
 import HomeworkList from "@/components/clientdash/HomeworkList";
 import AppointmentsPanel from "@/components/clientdash/AppointmentsPanel";
-import { LogOut, Dog, BookOpen, Calendar, Loader2 } from "lucide-react";
+import VideosPanel from "@/components/clientdash/VideosPanel";
+import { LogOut, Dog, BookOpen, Calendar, Video, Loader2 } from "lucide-react";
 
 const TABS = [
   { id: "schedule", label: "My Schedule", icon: Dog },
   { id: "homework", label: "Homework", icon: BookOpen },
   { id: "appointments", label: "Appointments", icon: Calendar },
+  { id: "videos", label: "Videos", icon: Video },
 ];
 
 export default function ClientDashboard() {
@@ -170,6 +172,10 @@ export default function ClientDashboard() {
             <h2 className="font-bold text-lg mb-5">Upcoming Appointments</h2>
             <AppointmentsPanel />
           </div>
+        )}
+
+        {tab === "videos" && (
+          <VideosPanel clientEmail={email} currentUser={user} />
         )}
       </div>
     </div>
