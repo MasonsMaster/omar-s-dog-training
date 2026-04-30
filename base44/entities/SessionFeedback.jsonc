@@ -1,0 +1,61 @@
+{
+  "name": "SessionFeedback",
+  "type": "object",
+  "properties": {
+    "client_email": {
+      "type": "string",
+      "description": "Client email"
+    },
+    "session_id": {
+      "type": "string",
+      "description": "Reference to TrainingSession"
+    },
+    "dog_name": {
+      "type": "string",
+      "description": "Dog's name (for display)"
+    },
+    "rating": {
+      "type": "number",
+      "minimum": 1,
+      "maximum": 5,
+      "description": "Star rating (1-5)"
+    },
+    "testimonial": {
+      "type": "string",
+      "description": "Client review text"
+    },
+    "trainer_impact": {
+      "type": "string",
+      "enum": [
+        "life_changing",
+        "significant_improvement",
+        "helped_a_lot",
+        "somewhat_helpful"
+      ],
+      "description": "Impact assessment"
+    },
+    "would_recommend": {
+      "type": "boolean",
+      "description": "Would recommend to friends"
+    },
+    "is_public": {
+      "type": "boolean",
+      "default": false,
+      "description": "Display on public success page"
+    },
+    "client_name": {
+      "type": "string",
+      "description": "Client name for display (optional)"
+    },
+    "photo_url": {
+      "type": "string",
+      "description": "Client/dog photo for testimonial"
+    }
+  },
+  "required": [
+    "client_email",
+    "session_id",
+    "rating",
+    "testimonial"
+  ]
+}

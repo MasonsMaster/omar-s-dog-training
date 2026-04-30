@@ -18,6 +18,7 @@ import SessionNotesPanel from "@/components/clientdash/SessionNotesPanel";
 import CalendlyBooking from "@/components/clientdash/CalendlyBooking";
 import CalendlySessionManager from "@/components/clientdash/CalendlySessionManager";
 import PullToRefresh from "@/components/mobile/PullToRefresh";
+import SessionFeedbackPrompt from "@/components/clientdash/SessionFeedbackPrompt";
 import LevelCard from "@/components/gamification/LevelCard";
 import BadgeGallery from "@/components/gamification/BadgeGallery";
 import StreakDisplay from "@/components/gamification/StreakDisplay";
@@ -140,6 +141,10 @@ export default function ClientDashboard() {
     <PullToRefresh onRefresh={handleRefresh}>
       <MilestoneNotification clientEmail={email} />
       <div className="min-h-screen bg-background">
+        {/* Feedback prompt for completed sessions */}
+        <div className="max-w-5xl mx-auto px-6 pt-6 pb-0">
+          <SessionFeedbackPrompt clientEmail={email} clientName={user.full_name} dogProfiles={dogProfiles} />
+        </div>
         {/* Header */}
         <div className="bg-foreground text-background">
         <div className="max-w-5xl mx-auto px-6 py-10 flex items-start justify-between gap-4">
