@@ -22,7 +22,9 @@ import BadgeGallery from "@/components/gamification/BadgeGallery";
 import StreakDisplay from "@/components/gamification/StreakDisplay";
 import Leaderboard from "@/components/gamification/Leaderboard";
 import MonthlyReportDownload from "@/components/clientdash/MonthlyReportDownload";
-import { LogOut, Dog, BookOpen, Calendar, Video, BarChart2, PawPrint, ClipboardList, MessageSquare, Target, Loader2, Trophy, BookMarked, Flame, FileText } from "lucide-react";
+import SubscriptionSelector from "@/components/clientdash/SubscriptionSelector";
+import BillingOverview from "@/components/clientdash/BillingOverview";
+import { LogOut, Dog, BookOpen, Calendar, Video, BarChart2, PawPrint, ClipboardList, MessageSquare, Target, Loader2, Trophy, BookMarked, Flame, FileText, CreditCard } from "lucide-react";
 
 function UnreadBadge({ email }) {
   const { data: msgs = [] } = useQuery({
@@ -48,6 +50,7 @@ const TABS = [
   { id: "resources", label: "Resources", icon: BookOpen },
   { id: "progress", label: "Progress", icon: BarChart2 },
   { id: "reports", label: "Reports", icon: FileText },
+  { id: "billing", label: "Billing", icon: CreditCard },
   { id: "dogs", label: "My Dogs", icon: PawPrint },
   { id: "logs", label: "Daily Log", icon: ClipboardList },
   { id: "challenges", label: "Challenges", icon: Target },
@@ -274,6 +277,20 @@ export default function ClientDashboard() {
             <h2 className="font-bold text-lg mb-1">Training Reports</h2>
             <p className="text-sm text-muted-foreground mb-5">Download comprehensive monthly summaries of your progress and insights.</p>
             <MonthlyReportDownload clientEmail={email} />
+          </div>
+        )}
+
+        {tab === "billing" && (
+          <div className="space-y-8">
+            <div>
+              <h2 className="font-bold text-lg mb-1">Billing & Subscription</h2>
+              <p className="text-sm text-muted-foreground mb-5">Manage your training plan and billing information.</p>
+              <BillingOverview clientEmail={email} />
+            </div>
+
+            <div className="border-t border-border pt-8">
+              <SubscriptionSelector clientEmail={email} />
+            </div>
           </div>
         )}
 
