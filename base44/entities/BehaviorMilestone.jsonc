@@ -1,0 +1,48 @@
+{
+  "name": "BehaviorMilestone",
+  "type": "object",
+  "properties": {
+    "client_email": {
+      "type": "string"
+    },
+    "behavior_name": {
+      "type": "string",
+      "description": "e.g. 'Leash Pulling', 'Recall', 'Jumping'"
+    },
+    "milestone_type": {
+      "type": "string",
+      "enum": [
+        "7_day_streak",
+        "improvement_trend",
+        "mastery_level"
+      ],
+      "description": "Type of milestone achieved"
+    },
+    "mastery_level": {
+      "type": "number",
+      "default": 1,
+      "description": "Mastery level (1-5) for the behavior"
+    },
+    "consecutive_days": {
+      "type": "number",
+      "description": "Number of consecutive days logged"
+    },
+    "earned_date": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "xp_earned": {
+      "type": "number",
+      "default": 50
+    },
+    "description": {
+      "type": "string",
+      "description": "Human-readable milestone description"
+    }
+  },
+  "required": [
+    "client_email",
+    "behavior_name",
+    "milestone_type"
+  ]
+}

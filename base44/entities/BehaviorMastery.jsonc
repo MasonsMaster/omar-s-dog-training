@@ -1,0 +1,44 @@
+{
+  "name": "BehaviorMastery",
+  "type": "object",
+  "properties": {
+    "client_email": {
+      "type": "string"
+    },
+    "behavior_name": {
+      "type": "string"
+    },
+    "mastery_level": {
+      "type": "number",
+      "default": 1,
+      "minimum": 1,
+      "maximum": 5,
+      "description": "Mastery level (1=Novice, 2=Intermediate, 3=Advanced, 4=Expert, 5=Master)"
+    },
+    "total_logs": {
+      "type": "number",
+      "default": 0
+    },
+    "streak_days": {
+      "type": "number",
+      "default": 0
+    },
+    "improvement_score": {
+      "type": "number",
+      "default": 0,
+      "description": "Score tracking improvement (0-100)"
+    },
+    "unlocked_date": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "last_logged": {
+      "type": "string",
+      "format": "date"
+    }
+  },
+  "required": [
+    "client_email",
+    "behavior_name"
+  ]
+}

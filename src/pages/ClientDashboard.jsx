@@ -21,6 +21,8 @@ import LevelCard from "@/components/gamification/LevelCard";
 import BadgeGallery from "@/components/gamification/BadgeGallery";
 import StreakDisplay from "@/components/gamification/StreakDisplay";
 import Leaderboard from "@/components/gamification/Leaderboard";
+import MasteryDisplay from "@/components/gamification/MasteryDisplay";
+import MilestoneNotification from "@/components/gamification/MilestoneNotification";
 import MonthlyReportDownload from "@/components/clientdash/MonthlyReportDownload";
 import SubscriptionSelector from "@/components/clientdash/SubscriptionSelector";
 import BillingOverview from "@/components/clientdash/BillingOverview";
@@ -135,6 +137,7 @@ export default function ClientDashboard() {
 
   return (
     <PullToRefresh onRefresh={handleRefresh}>
+      <MilestoneNotification clientEmail={email} />
       <div className="min-h-screen bg-background">
         {/* Header */}
         <div className="bg-foreground text-background">
@@ -334,7 +337,7 @@ export default function ClientDashboard() {
         {tab === "gamification" && (
           <div>
             <h2 className="font-bold text-lg mb-1">Your Achievements</h2>
-            <p className="text-sm text-muted-foreground mb-5">Track your training journey with levels, XP, and collectible badges.</p>
+            <p className="text-sm text-muted-foreground mb-5">Track your training journey with levels, XP, badges, and behavior mastery.</p>
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
               <div className="lg:col-span-1">
                 <LevelCard clientEmail={email} />
@@ -343,9 +346,13 @@ export default function ClientDashboard() {
                 <BadgeGallery clientEmail={email} />
               </div>
             </div>
-            <div>
+            <div className="mb-8">
               <h3 className="font-bold text-lg mb-4">Your Streak</h3>
               <StreakDisplay clientEmail={email} />
+            </div>
+            <div className="border-t border-border pt-8">
+              <h3 className="font-bold text-lg mb-4">Behavior Mastery</h3>
+              <MasteryDisplay clientEmail={email} />
             </div>
           </div>
         )}
