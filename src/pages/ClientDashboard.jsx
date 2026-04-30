@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { base44 } from "@/api/base44Client";
 import { useAuth } from "@/lib/AuthContext";
 import { Button } from "@/components/ui/button";
@@ -13,6 +13,7 @@ import DogProfilePanel from "@/components/clientdash/DogProfilePanel";
 import BehaviorLogPanel from "@/components/clientdash/BehaviorLogPanel";
 import BehaviorChallengesPanel from "@/components/clientdash/BehaviorChallengesPanel";
 import MessagingPanel from "@/components/clientdash/MessagingPanel";
+import PullToRefresh from "@/components/mobile/PullToRefresh";
 import { LogOut, Dog, BookOpen, Calendar, Video, BarChart2, PawPrint, ClipboardList, MessageSquare, Target, Loader2 } from "lucide-react";
 
 function UnreadBadge({ email }) {
@@ -66,11 +67,21 @@ export default function ClientDashboard() {
     enabled: !!email,
   });
 
-  const { data: behaviorLogs = [] } = useQuery({
+  const qc = useQueryClient();
+
+  const { data: behaviorLogs = [], refetch: refetchLogs } = useQuery({
     queryKey: ["behavior-logs", email],
     queryFn: () => base44.entities.BehaviorLog.filter({ client_email: email }, "-log_date", 30),
     enabled: !!email,
   });
+
+  const handleRefresh = async () => {
+    await Promise.all([
+      refetchLogs(),
+      qc.invalidateQueries({ queryKey: ["client-schedules", email] }),
+      qc.invalidateQueries({ queryKey: ["client-homework", email] }),
+    ]);
+  };
 
   // Auth gate
   if (isLoadingAuth) {
@@ -100,9 +111,10 @@ export default function ClientDashboard() {
   const doneHW = homework.filter((t) => t.completed).length;
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Header */}
-      <div className="bg-foreground text-background">
+    <PullToRefresh onRefresh={handleRefresh}>
+      <div className="min-h-screen bg-background">
+        {/* Header */}
+        <div className="bg-foreground text-background">
         <div className="max-w-5xl mx-auto px-6 py-10 flex items-start justify-between gap-4">
           <div>
             <SectionBadge>Client Portal</SectionBadge>
@@ -255,6 +267,7 @@ export default function ClientDashboard() {
           </div>
         )}
       </div>
-    </div>
+      </div>
+    </PullToRefresh>
   );
 }

@@ -5,7 +5,7 @@ import { useAuth } from "@/lib/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import SectionBadge from "@/components/shared/SectionBadge";
-import { User, Dog, CreditCard, Check, Loader2, Plus, Trash2, AlertCircle, ShieldCheck } from "lucide-react";
+import { User, Dog, CreditCard, Check, Loader2, Plus, Trash2, AlertCircle, ShieldCheck, LogOut } from "lucide-react";
 import { toast } from "sonner";
 import { format, isPast } from "date-fns";
 
@@ -13,6 +13,7 @@ const TABS = [
   { id: "contact", label: "Contact Info", icon: User },
   { id: "dogs", label: "Dog Vaccinations", icon: Dog },
   { id: "subscription", label: "Subscription", icon: CreditCard },
+  { id: "danger", label: "Danger Zone", icon: AlertCircle },
 ];
 
 const VACCINE_OPTIONS = ["Rabies", "DHPP", "Bordetella", "Leptospirosis", "Lyme", "Canine Influenza", "Other"];
@@ -423,7 +424,111 @@ export default function AccountSettings() {
         {tab === "contact" && <ContactTab user={user} />}
         {tab === "dogs" && <DogsVaccinationTab clientEmail={user.email} />}
         {tab === "subscription" && <SubscriptionTab user={user} />}
+        {tab === "danger" && <DangerZoneTab user={user} />}
       </div>
+    </div>
+  );
+}
+
+// ── Danger Zone Tab ──────────────────────────────────────────────────────────
+
+function DangerZoneTab({ user }) {
+  const { logout } = useAuth();
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [confirmText, setConfirmText] = useState("");
+  const [deleting, setDeleting] = useState(false);
+
+  const handleDeleteAccount = async () => {
+    if (confirmText !== "DELETE MY ACCOUNT") {
+      toast.error("Please type the exact text to confirm.");
+      return;
+    }
+
+    setDeleting(true);
+    try {
+      // Call a backend function to delete the account
+      await base44.functions.invoke("deleteUserAccount", { email: user.email });
+      toast.success("Account deleted. Logging out...");
+      setTimeout(() => logout(), 1500);
+    } catch (error) {
+      console.error("Delete failed:", error);
+      toast.error("Failed to delete account. Please contact support.");
+      setDeleting(false);
+    }
+  };
+
+  return (
+    <div className="max-w-lg space-y-6">
+      <div className="bg-destructive/10 border border-destructive/20 rounded-2xl p-6 space-y-4">
+        <div className="flex items-start gap-3">
+          <AlertCircle className="w-5 h-5 text-destructive shrink-0 mt-0.5" />
+          <div>
+            <div className="font-bold text-destructive">Delete Account</div>
+            <p className="text-sm text-foreground/70 mt-1">
+              Permanently delete your account and all associated data. This action cannot be undone.
+            </p>
+          </div>
+        </div>
+
+        <Button
+          variant="destructive"
+          size="sm"
+          onClick={() => setShowDeleteModal(true)}
+          className="rounded-full font-bold gap-2 w-full"
+        >
+          <Trash2 className="w-4 h-4" /> Delete Account
+        </Button>
+      </div>
+
+      {showDeleteModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm p-4">
+          <div className="bg-background border border-border rounded-2xl max-w-sm w-full shadow-lg p-6 space-y-4">
+            <div className="flex items-start gap-3">
+              <AlertCircle className="w-6 h-6 text-destructive shrink-0" />
+              <div>
+                <h3 className="font-bold">Delete Account?</h3>
+                <p className="text-sm text-muted-foreground mt-1">
+                  This will permanently delete your account, all dog profiles, training schedules, and behavior logs. This cannot be reversed.
+                </p>
+              </div>
+            </div>
+
+            <div className="bg-destructive/10 rounded-lg p-3 border border-destructive/20">
+              <p className="text-xs font-semibold text-destructive mb-2">Type this exactly to confirm:</p>
+              <p className="text-sm font-mono font-bold text-destructive mb-3">DELETE MY ACCOUNT</p>
+              <Input
+                type="text"
+                placeholder="Type confirmation text..."
+                value={confirmText}
+                onChange={(e) => setConfirmText(e.target.value)}
+                className="font-mono"
+              />
+            </div>
+
+            <div className="flex gap-2 justify-end">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => { setShowDeleteModal(false); setConfirmText(""); }}
+                disabled={deleting}
+                className="rounded-full"
+              >
+                Cancel
+              </Button>
+              <Button
+                variant="destructive"
+                size="sm"
+                onClick={handleDeleteAccount}
+                disabled={deleting || confirmText !== "DELETE MY ACCOUNT"}
+                className="rounded-full font-bold gap-1"
+              >
+                {deleting ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Trash2 className="w-3.5 h-3.5" />}
+                Delete
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

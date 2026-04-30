@@ -17,6 +17,7 @@ import QuickReplyInbox from "@/components/trainer/overview/QuickReplyInbox";
 import ProgramBuilder from "@/components/trainer/program-builder/ProgramBuilder";
 import UpcomingSessionsPanel from "@/components/trainer/UpcomingSessionsPanel";
 import ChallengesManagementPanel from "@/components/trainer/ChallengesManagementPanel";
+import PullToRefresh from "@/components/mobile/PullToRefresh";
 import { Settings, Calendar, Target } from "lucide-react";
 
 const TABS = [
@@ -62,11 +63,20 @@ export default function TrainerHub() {
     enabled: user?.role === "admin",
   });
 
-  const { data: behaviorLogs = [] } = useQuery({
+  const { data: behaviorLogs = [], refetch: refetchLogs } = useQuery({
     queryKey: ["all-behavior-logs"],
     queryFn: () => base44.entities.BehaviorLog.list("-log_date", 500),
     enabled: user?.role === "admin",
   });
+
+  const qc = useQueryClient();
+  const handleRefresh = async () => {
+    await Promise.all([
+      refetchLogs(),
+      qc.invalidateQueries({ queryKey: ["all-schedules"] }),
+      qc.invalidateQueries({ queryKey: ["all-homework"] }),
+    ]);
+  };
 
   if (isLoadingAuth) {
     return <div className="flex items-center justify-center min-h-[60vh]"><Loader2 className="w-6 h-6 animate-spin text-primary" /></div>;
@@ -113,9 +123,10 @@ export default function TrainerHub() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Header */}
-      <div className="bg-foreground text-background">
+    <PullToRefresh onRefresh={handleRefresh}>
+      <div className="min-h-screen bg-background">
+        {/* Header */}
+        <div className="bg-foreground text-background">
         <div className="max-w-6xl mx-auto px-6 py-10">
           <SectionBadge>Trainer Hub</SectionBadge>
           <h1 className="font-heading text-3xl md:text-4xl mt-1">
@@ -291,7 +302,8 @@ export default function TrainerHub() {
         )}
 
       </div>
-    </div>
+      </div>
+    </PullToRefresh>
   );
 }
 
