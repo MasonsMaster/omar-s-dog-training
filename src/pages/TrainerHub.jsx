@@ -17,6 +17,7 @@ import QuickReplyInbox from "@/components/trainer/overview/QuickReplyInbox";
 import ProgramBuilder from "@/components/trainer/program-builder/ProgramBuilder";
 import UpcomingSessionsPanel from "@/components/trainer/UpcomingSessionsPanel";
 import ChallengesManagementPanel from "@/components/trainer/ChallengesManagementPanel";
+import ResourceLibraryManager from "@/components/trainer/resources/ResourceLibraryManager";
 import PullToRefresh from "@/components/mobile/PullToRefresh";
 import { Settings, Calendar, Target } from "lucide-react";
 
@@ -25,6 +26,7 @@ const TABS = [
   { id: "programs", label: "Program Templates", icon: Settings },
   { id: "sessions", label: "Upcoming Sessions", icon: Calendar },
   { id: "challenges", label: "Client Challenges", icon: Target },
+  { id: "resources", label: "Resource Library", icon: BookOpen },
   { id: "clients", label: "Active Clients", icon: Users },
   { id: "schedules", label: "Schedules", icon: ClipboardList },
   { id: "homework", label: "Homework", icon: BookOpen },
@@ -190,6 +192,15 @@ export default function TrainerHub() {
             <h2 className="font-bold text-lg mb-1">Client Behavior Challenges</h2>
             <p className="text-sm text-muted-foreground mb-5">Monitor shared behavior challenges with daily logs, photos, and improvement tracking.</p>
             <ChallengesManagementPanel clientEmails={clients.map(c => c.email)} />
+          </div>
+        )}
+
+        {/* Resource Library Tab */}
+        {tab === "resources" && (
+          <div>
+            <h2 className="font-bold text-lg mb-1">Training Resource Library</h2>
+            <p className="text-sm text-muted-foreground mb-5">Create and manage training documents, videos, and guides for your clients.</p>
+            <ResourceLibraryManager />
           </div>
         )}
 

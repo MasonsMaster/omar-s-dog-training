@@ -13,6 +13,7 @@ import DogProfilePanel from "@/components/clientdash/DogProfilePanel";
 import BehaviorLogPanel from "@/components/clientdash/BehaviorLogPanel";
 import BehaviorChallengesPanel from "@/components/clientdash/BehaviorChallengesPanel";
 import MessagingPanel from "@/components/clientdash/MessagingPanel";
+import ResourceLibrary from "@/components/clientdash/ResourceLibrary";
 import PullToRefresh from "@/components/mobile/PullToRefresh";
 import { LogOut, Dog, BookOpen, Calendar, Video, BarChart2, PawPrint, ClipboardList, MessageSquare, Target, Loader2 } from "lucide-react";
 
@@ -35,6 +36,7 @@ const TABS = [
   { id: "homework", label: "Homework", icon: BookOpen },
   { id: "appointments", label: "Appointments", icon: Calendar },
   { id: "videos", label: "Videos", icon: Video },
+  { id: "resources", label: "Resources", icon: BookOpen },
   { id: "progress", label: "Progress", icon: BarChart2 },
   { id: "dogs", label: "My Dogs", icon: PawPrint },
   { id: "logs", label: "Daily Log", icon: ClipboardList },
@@ -225,6 +227,10 @@ export default function ClientDashboard() {
 
         {tab === "videos" && (
           <VideosPanel clientEmail={email} currentUser={user} />
+        )}
+
+        {tab === "resources" && (
+          <ResourceLibrary />
         )}
 
         {tab === "progress" && (

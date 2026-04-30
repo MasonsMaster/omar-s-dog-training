@@ -1,0 +1,70 @@
+{
+  "name": "TrainingResource",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Resource title"
+    },
+    "description": {
+      "type": "string",
+      "description": "Detailed description of the resource"
+    },
+    "resource_type": {
+      "type": "string",
+      "enum": [
+        "video",
+        "document",
+        "guide"
+      ],
+      "description": "Type of resource"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "fundamentals",
+        "intermediate",
+        "advanced",
+        "behavioral_challenges",
+        "health_wellness",
+        "nutrition"
+      ],
+      "description": "Main category"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Searchable tags (e.g., 'leash_training', 'recall', 'aggression')"
+    },
+    "file_url": {
+      "type": "string",
+      "description": "URL to the video or document file"
+    },
+    "thumbnail_url": {
+      "type": "string",
+      "description": "Thumbnail image URL for preview"
+    },
+    "duration_minutes": {
+      "type": "number",
+      "description": "Video duration in minutes (for videos only)"
+    },
+    "is_published": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the resource is visible to clients"
+    },
+    "order": {
+      "type": "number",
+      "default": 0,
+      "description": "Display order within category"
+    }
+  },
+  "required": [
+    "title",
+    "resource_type",
+    "category",
+    "file_url"
+  ]
+}
