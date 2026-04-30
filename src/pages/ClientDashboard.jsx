@@ -15,6 +15,7 @@ import BehaviorChallengesPanel from "@/components/clientdash/BehaviorChallengesP
 import MessagingPanel from "@/components/clientdash/MessagingPanel";
 import ResourceLibrary from "@/components/clientdash/ResourceLibrary";
 import SessionNotesPanel from "@/components/clientdash/SessionNotesPanel";
+import CalendlyBooking from "@/components/clientdash/CalendlyBooking";
 import PullToRefresh from "@/components/mobile/PullToRefresh";
 import LevelCard from "@/components/gamification/LevelCard";
 import BadgeGallery from "@/components/gamification/BadgeGallery";
@@ -38,6 +39,7 @@ const TABS = [
   { id: "schedule", label: "My Schedule", icon: Dog },
   { id: "homework", label: "Homework", icon: BookOpen },
   { id: "appointments", label: "Appointments", icon: Calendar },
+  { id: "booking", label: "Book Session", icon: Calendar },
   { id: "sessions", label: "Session Notes", icon: BookMarked },
   { id: "videos", label: "Videos", icon: Video },
   { id: "resources", label: "Resources", icon: BookOpen },
@@ -227,6 +229,14 @@ export default function ClientDashboard() {
           <div>
             <h2 className="font-bold text-lg mb-5">Upcoming Appointments</h2>
             <AppointmentsPanel />
+          </div>
+        )}
+
+        {tab === "booking" && (
+          <div>
+            <h2 className="font-bold text-lg mb-1">Book Your Session</h2>
+            <p className="text-sm text-muted-foreground mb-5">Schedule a private training session or emergency appointment directly from Omar's calendar.</p>
+            <CalendlyBooking clientEmail={email} user={user} />
           </div>
         )}
 
