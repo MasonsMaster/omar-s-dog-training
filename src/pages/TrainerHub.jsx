@@ -10,9 +10,13 @@ import ClientDetailPanel from "@/components/trainer/ClientDetailPanel";
 import AnalyticsDashboard from "@/components/trainer/AnalyticsDashboard";
 import BillingView from "@/components/trainer/BillingView";
 import WeeklyReportStudio from "@/components/trainer/WeeklyReportStudio";
-import { Search, Users, ClipboardList, BookOpen, BarChart2, TrendingUp, DollarSign, Loader2, Shield } from "lucide-react";
+import { Search, Users, ClipboardList, BookOpen, BarChart2, TrendingUp, DollarSign, Loader2, Shield, LayoutDashboard } from "lucide-react";
+import ActiveProgramsPanel from "@/components/trainer/overview/ActiveProgramsPanel";
+import NeedsAttentionFeed from "@/components/trainer/overview/NeedsAttentionFeed";
+import QuickReplyInbox from "@/components/trainer/overview/QuickReplyInbox";
 
 const TABS = [
+  { id: "overview", label: "Overview", icon: LayoutDashboard },
   { id: "clients", label: "Active Clients", icon: Users },
   { id: "schedules", label: "Schedules", icon: ClipboardList },
   { id: "homework", label: "Homework", icon: BookOpen },
@@ -23,7 +27,7 @@ const TABS = [
 
 export default function TrainerHub() {
   const { user, isLoadingAuth } = useAuth();
-  const [tab, setTab] = useState("clients");
+  const [tab, setTab] = useState("overview");
   const [search, setSearch] = useState("");
   const [selectedEmail, setSelectedEmail] = useState(null);
 
@@ -147,6 +151,49 @@ export default function TrainerHub() {
       </div>
 
       <div className="max-w-6xl mx-auto px-6 py-8">
+
+        {/* Overview Tab */}
+        {tab === "overview" && (
+          <div className="space-y-8">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              {/* Active Programs */}
+              <div className="lg:col-span-2">
+                <div className="flex items-center gap-2 mb-4">
+                  <h2 className="font-bold text-base">Active Programs</h2>
+                  <span className="bg-green-100 text-green-700 text-[10px] font-black px-2 py-0.5 rounded-full border border-green-200">
+                    {activeSchedules.length}
+                  </span>
+                </div>
+                <ActiveProgramsPanel schedules={schedules} />
+              </div>
+
+              {/* Needs Attention */}
+              <div>
+                <div className="flex items-center gap-2 mb-4">
+                  <h2 className="font-bold text-base">Needs Attention</h2>
+                  {behaviorLogs.filter(l => {
+                    const cutoff = new Date(); cutoff.setDate(cutoff.getDate() - 14);
+                    return l.overall_mood === "very_rough" && l.log_date && new Date(l.log_date) >= cutoff;
+                  }).length > 0 && (
+                    <span className="bg-red-100 text-red-700 text-[10px] font-black px-2 py-0.5 rounded-full border border-red-200 animate-pulse">
+                      !
+                    </span>
+                  )}
+                </div>
+                <NeedsAttentionFeed
+                  behaviorLogs={behaviorLogs}
+                  onSelectClient={(email) => { setSelectedEmail(email); }}
+                />
+              </div>
+            </div>
+
+            {/* Quick Reply Inbox */}
+            <div>
+              <h2 className="font-bold text-base mb-4">Message Inbox</h2>
+              <QuickReplyInbox />
+            </div>
+          </div>
+        )}
 
         {/* Active Clients Tab */}
         {tab === "clients" && (
