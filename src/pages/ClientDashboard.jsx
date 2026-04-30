@@ -8,13 +8,15 @@ import ScheduleCard from "@/components/clientdash/ScheduleCard";
 import HomeworkList from "@/components/clientdash/HomeworkList";
 import AppointmentsPanel from "@/components/clientdash/AppointmentsPanel";
 import VideosPanel from "@/components/clientdash/VideosPanel";
-import { LogOut, Dog, BookOpen, Calendar, Video, Loader2 } from "lucide-react";
+import ProgressChart from "@/components/clientdash/ProgressChart";
+import { LogOut, Dog, BookOpen, Calendar, Video, BarChart2, Loader2 } from "lucide-react";
 
 const TABS = [
   { id: "schedule", label: "My Schedule", icon: Dog },
   { id: "homework", label: "Homework", icon: BookOpen },
   { id: "appointments", label: "Appointments", icon: Calendar },
   { id: "videos", label: "Videos", icon: Video },
+  { id: "progress", label: "Progress", icon: BarChart2 },
 ];
 
 export default function ClientDashboard() {
@@ -176,6 +178,13 @@ export default function ClientDashboard() {
 
         {tab === "videos" && (
           <VideosPanel clientEmail={email} currentUser={user} />
+        )}
+
+        {tab === "progress" && (
+          <div>
+            <h2 className="font-bold text-lg mb-5">Training Progress</h2>
+            <ProgressChart schedules={schedules} homework={homework} />
+          </div>
         )}
       </div>
     </div>
