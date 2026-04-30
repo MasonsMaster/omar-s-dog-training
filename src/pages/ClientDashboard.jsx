@@ -8,7 +8,7 @@ import ScheduleCard from "@/components/clientdash/ScheduleCard";
 import HomeworkList from "@/components/clientdash/HomeworkList";
 import AppointmentsPanel from "@/components/clientdash/AppointmentsPanel";
 import VideosPanel from "@/components/clientdash/VideosPanel";
-import ProgressChart from "@/components/clientdash/ProgressChart";
+import ProgressDashboard from "@/components/clientdash/ProgressDashboard";
 import DogProfilePanel from "@/components/clientdash/DogProfilePanel";
 import BehaviorLogPanel from "@/components/clientdash/BehaviorLogPanel";
 import BehaviorChallengesPanel from "@/components/clientdash/BehaviorChallengesPanel";
@@ -258,8 +258,9 @@ export default function ClientDashboard() {
 
         {tab === "progress" && (
           <div>
-            <h2 className="font-bold text-lg mb-5">Training Progress</h2>
-            <ProgressChart schedules={schedules} homework={homework} />
+            <h2 className="font-bold text-lg mb-1">Training Progress</h2>
+            <p className="text-sm text-muted-foreground mb-5">Track your dog's level, hours trained, ratings, and achievement badges.</p>
+            <ProgressDashboard clientEmail={email} dogProfiles={dogProfiles} />
           </div>
         )}
 
