@@ -14,10 +14,11 @@ import BehaviorLogPanel from "@/components/clientdash/BehaviorLogPanel";
 import BehaviorChallengesPanel from "@/components/clientdash/BehaviorChallengesPanel";
 import MessagingPanel from "@/components/clientdash/MessagingPanel";
 import ResourceLibrary from "@/components/clientdash/ResourceLibrary";
+import SessionNotesPanel from "@/components/clientdash/SessionNotesPanel";
 import PullToRefresh from "@/components/mobile/PullToRefresh";
 import LevelCard from "@/components/gamification/LevelCard";
 import BadgeGallery from "@/components/gamification/BadgeGallery";
-import { LogOut, Dog, BookOpen, Calendar, Video, BarChart2, PawPrint, ClipboardList, MessageSquare, Target, Loader2, Trophy } from "lucide-react";
+import { LogOut, Dog, BookOpen, Calendar, Video, BarChart2, PawPrint, ClipboardList, MessageSquare, Target, Loader2, Trophy, BookMarked } from "lucide-react";
 
 function UnreadBadge({ email }) {
   const { data: msgs = [] } = useQuery({
@@ -37,6 +38,7 @@ const TABS = [
   { id: "schedule", label: "My Schedule", icon: Dog },
   { id: "homework", label: "Homework", icon: BookOpen },
   { id: "appointments", label: "Appointments", icon: Calendar },
+  { id: "sessions", label: "Session Notes", icon: BookMarked },
   { id: "videos", label: "Videos", icon: Video },
   { id: "resources", label: "Resources", icon: BookOpen },
   { id: "progress", label: "Progress", icon: BarChart2 },
@@ -225,6 +227,14 @@ export default function ClientDashboard() {
           <div>
             <h2 className="font-bold text-lg mb-5">Upcoming Appointments</h2>
             <AppointmentsPanel />
+          </div>
+        )}
+
+        {tab === "sessions" && (
+          <div>
+            <h2 className="font-bold text-lg mb-1">Session Notes</h2>
+            <p className="text-sm text-muted-foreground mb-5">Review detailed notes from each training session, including accomplishments, areas for improvement, and next steps.</p>
+            <SessionNotesPanel clientEmail={email} />
           </div>
         )}
 

@@ -1,0 +1,109 @@
+{
+  "name": "TrainingSession",
+  "type": "object",
+  "properties": {
+    "schedule_id": {
+      "type": "string",
+      "description": "Reference to TrainingSchedule"
+    },
+    "client_email": {
+      "type": "string",
+      "description": "Client email"
+    },
+    "dog_name": {
+      "type": "string",
+      "description": "Dog's name"
+    },
+    "session_number": {
+      "type": "number",
+      "description": "Which session in the program (1, 2, 3, etc.)"
+    },
+    "session_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Date the session occurred"
+    },
+    "session_time": {
+      "type": "string",
+      "description": "Time of session (HH:MM format)"
+    },
+    "duration_minutes": {
+      "type": "number",
+      "description": "Session duration in minutes"
+    },
+    "focus_areas": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Topics covered (e.g., 'Heel work', 'Recall', 'Sit/Stay')"
+    },
+    "key_accomplishments": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "What the dog did well"
+    },
+    "areas_to_improve": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "What needs more work"
+    },
+    "homework_assigned": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Assigned homework tasks"
+    },
+    "trainer_notes": {
+      "type": "string",
+      "description": "Detailed trainer feedback and observations"
+    },
+    "dog_behavior_rating": {
+      "type": "number",
+      "minimum": 1,
+      "maximum": 10,
+      "description": "How well the dog performed (1-10)"
+    },
+    "handler_responsiveness_rating": {
+      "type": "number",
+      "minimum": 1,
+      "maximum": 10,
+      "description": "How well the handler followed instructions (1-10)"
+    },
+    "overall_session_rating": {
+      "type": "number",
+      "minimum": 1,
+      "maximum": 10,
+      "description": "Overall session success (1-10)"
+    },
+    "next_session_focus": {
+      "type": "string",
+      "description": "What to focus on next session"
+    },
+    "photo_urls": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Session photos"
+    },
+    "video_url": {
+      "type": "string",
+      "description": "Training video from this session"
+    },
+    "completed": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether this session has been completed"
+    }
+  },
+  "required": [
+    "client_email",
+    "session_date"
+  ]
+}
