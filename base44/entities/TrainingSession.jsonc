@@ -100,6 +100,20 @@
       "type": "boolean",
       "default": false,
       "description": "Whether this session has been completed"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "scheduled",
+        "completed",
+        "cancelled"
+      ],
+      "default": "scheduled",
+      "description": "Session status"
+    },
+    "event_id": {
+      "type": "string",
+      "description": "Calendly event ID for sync"
     }
   },
   "required": [

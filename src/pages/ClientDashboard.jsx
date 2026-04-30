@@ -16,6 +16,7 @@ import MessagingPanel from "@/components/clientdash/MessagingPanel";
 import ResourceLibrary from "@/components/clientdash/ResourceLibrary";
 import SessionNotesPanel from "@/components/clientdash/SessionNotesPanel";
 import CalendlyBooking from "@/components/clientdash/CalendlyBooking";
+import CalendlySessionManager from "@/components/clientdash/CalendlySessionManager";
 import PullToRefresh from "@/components/mobile/PullToRefresh";
 import LevelCard from "@/components/gamification/LevelCard";
 import BadgeGallery from "@/components/gamification/BadgeGallery";
@@ -252,8 +253,8 @@ export default function ClientDashboard() {
         {tab === "booking" && (
           <div>
             <h2 className="font-bold text-lg mb-1">Book Your Session</h2>
-            <p className="text-sm text-muted-foreground mb-5">Schedule a private training session or emergency appointment directly from Omar's calendar.</p>
-            <CalendlyBooking clientEmail={email} user={user} />
+            <p className="text-sm text-muted-foreground mb-5">Schedule a private training session, reschedule, or cancel directly from Omar's calendar.</p>
+            <CalendlySessionManager clientEmail={email} user={user} />
           </div>
         )}
 
