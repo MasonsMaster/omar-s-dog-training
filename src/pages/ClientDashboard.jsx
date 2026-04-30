@@ -15,7 +15,9 @@ import BehaviorChallengesPanel from "@/components/clientdash/BehaviorChallengesP
 import MessagingPanel from "@/components/clientdash/MessagingPanel";
 import ResourceLibrary from "@/components/clientdash/ResourceLibrary";
 import PullToRefresh from "@/components/mobile/PullToRefresh";
-import { LogOut, Dog, BookOpen, Calendar, Video, BarChart2, PawPrint, ClipboardList, MessageSquare, Target, Loader2 } from "lucide-react";
+import LevelCard from "@/components/gamification/LevelCard";
+import BadgeGallery from "@/components/gamification/BadgeGallery";
+import { LogOut, Dog, BookOpen, Calendar, Video, BarChart2, PawPrint, ClipboardList, MessageSquare, Target, Loader2, Trophy } from "lucide-react";
 
 function UnreadBadge({ email }) {
   const { data: msgs = [] } = useQuery({
@@ -41,6 +43,7 @@ const TABS = [
   { id: "dogs", label: "My Dogs", icon: PawPrint },
   { id: "logs", label: "Daily Log", icon: ClipboardList },
   { id: "challenges", label: "Challenges", icon: Target },
+  { id: "gamification", label: "Achievements", icon: Trophy },
   { id: "messages", label: "Messages", icon: MessageSquare },
 ];
 
@@ -258,6 +261,21 @@ export default function ClientDashboard() {
 
         {tab === "challenges" && (
           <BehaviorChallengesPanel clientEmail={email} dogProfiles={dogProfiles} />
+        )}
+
+        {tab === "gamification" && (
+          <div>
+            <h2 className="font-bold text-lg mb-1">Your Achievements</h2>
+            <p className="text-sm text-muted-foreground mb-5">Track your training journey with levels, XP, and collectible badges.</p>
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              <div className="lg:col-span-1">
+                <LevelCard clientEmail={email} />
+              </div>
+              <div className="lg:col-span-2">
+                <BadgeGallery clientEmail={email} />
+              </div>
+            </div>
+          </div>
         )}
 
         {tab === "messages" && (

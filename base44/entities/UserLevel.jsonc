@@ -1,0 +1,43 @@
+{
+  "name": "UserLevel",
+  "type": "object",
+  "properties": {
+    "client_email": {
+      "type": "string",
+      "description": "Client email"
+    },
+    "current_level": {
+      "type": "number",
+      "default": 1,
+      "description": "Current level (1-50)"
+    },
+    "total_xp": {
+      "type": "number",
+      "default": 0,
+      "description": "Total experience points earned"
+    },
+    "xp_in_level": {
+      "type": "number",
+      "default": 0,
+      "description": "XP progress in current level"
+    },
+    "level_progress_percent": {
+      "type": "number",
+      "default": 0,
+      "description": "Progress to next level (0-100)"
+    },
+    "last_level_up_date": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When user last leveled up"
+    },
+    "total_badges_earned": {
+      "type": "number",
+      "default": 0,
+      "description": "Number of badges collected"
+    }
+  },
+  "required": [
+    "client_email"
+  ]
+}

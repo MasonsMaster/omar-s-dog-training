@@ -1,0 +1,75 @@
+{
+  "name": "Badge",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Badge name (e.g., 'First Session', 'Vaccination Champion')"
+    },
+    "description": {
+      "type": "string",
+      "description": "What the badge is for"
+    },
+    "icon": {
+      "type": "string",
+      "description": "Badge emoji or icon (e.g., '\ud83c\udf96\ufe0f')"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "sessions",
+        "vaccinations",
+        "homework",
+        "behavior",
+        "milestone"
+      ],
+      "description": "Badge category"
+    },
+    "criteria": {
+      "type": "string",
+      "description": "How to earn it (e.g., 'Complete 5 training sessions', 'Keep vaccinations current for 30 days')"
+    },
+    "xp_reward": {
+      "type": "number",
+      "default": 10,
+      "description": "XP points awarded when earned"
+    },
+    "rarity": {
+      "type": "string",
+      "enum": [
+        "common",
+        "uncommon",
+        "rare",
+        "epic",
+        "legendary"
+      ],
+      "default": "common",
+      "description": "Badge rarity/difficulty"
+    },
+    "trigger_type": {
+      "type": "string",
+      "enum": [
+        "session_count",
+        "vaccination_current",
+        "homework_streak",
+        "behavior_improvement",
+        "manual"
+      ],
+      "description": "How the badge is triggered"
+    },
+    "trigger_value": {
+      "type": "number",
+      "description": "Trigger threshold (e.g., 5 for 5 sessions)"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether badge is available to earn"
+    }
+  },
+  "required": [
+    "name",
+    "category",
+    "criteria"
+  ]
+}

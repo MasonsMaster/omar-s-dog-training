@@ -1,0 +1,32 @@
+{
+  "name": "UserBadge",
+  "type": "object",
+  "properties": {
+    "client_email": {
+      "type": "string",
+      "description": "Client email"
+    },
+    "badge_id": {
+      "type": "string",
+      "description": "Reference to Badge entity"
+    },
+    "badge_name": {
+      "type": "string",
+      "description": "Badge name (for display)"
+    },
+    "earned_date": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the badge was earned"
+    },
+    "xp_earned": {
+      "type": "number",
+      "description": "XP earned from this badge"
+    }
+  },
+  "required": [
+    "client_email",
+    "badge_id",
+    "badge_name"
+  ]
+}
