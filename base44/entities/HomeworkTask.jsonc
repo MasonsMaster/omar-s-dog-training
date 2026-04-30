@@ -1,0 +1,49 @@
+{
+  "name": "HomeworkTask",
+  "type": "object",
+  "properties": {
+    "client_email": {
+      "type": "string"
+    },
+    "schedule_id": {
+      "type": "string",
+      "description": "Reference to TrainingSchedule id"
+    },
+    "title": {
+      "type": "string",
+      "description": "e.g. Heel work 10 min daily"
+    },
+    "description": {
+      "type": "string"
+    },
+    "due_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "completed": {
+      "type": "boolean",
+      "default": false
+    },
+    "completed_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Client notes on their progress"
+    },
+    "difficulty": {
+      "type": "string",
+      "enum": [
+        "easy",
+        "medium",
+        "hard"
+      ],
+      "default": "medium"
+    }
+  },
+  "required": [
+    "client_email",
+    "title"
+  ]
+}

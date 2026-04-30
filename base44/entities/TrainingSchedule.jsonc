@@ -1,0 +1,51 @@
+{
+  "name": "TrainingSchedule",
+  "type": "object",
+  "properties": {
+    "client_email": {
+      "type": "string",
+      "description": "Email of the client this schedule belongs to"
+    },
+    "dog_name": {
+      "type": "string"
+    },
+    "breed": {
+      "type": "string"
+    },
+    "program": {
+      "type": "string",
+      "description": "e.g. Behavioral Program, Saturday Class, Private"
+    },
+    "start_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "end_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "sessions_total": {
+      "type": "number"
+    },
+    "sessions_completed": {
+      "type": "number",
+      "default": 0
+    },
+    "notes": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "completed",
+        "paused"
+      ],
+      "default": "active"
+    }
+  },
+  "required": [
+    "client_email",
+    "program"
+  ]
+}
