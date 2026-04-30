@@ -1,0 +1,55 @@
+{
+  "name": "BehaviorLog",
+  "type": "object",
+  "properties": {
+    "client_email": {
+      "type": "string"
+    },
+    "dog_name": {
+      "type": "string"
+    },
+    "log_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "overall_mood": {
+      "type": "string",
+      "enum": [
+        "great",
+        "good",
+        "neutral",
+        "rough",
+        "very_rough"
+      ],
+      "description": "How did the session/day go overall?"
+    },
+    "behaviors_observed": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "e.g. Leash reactivity, Recall, Jumping"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Free-form observations from the client"
+    },
+    "practice_done": {
+      "type": "boolean",
+      "default": false,
+      "description": "Did the client practice their homework today?"
+    },
+    "duration_minutes": {
+      "type": "number",
+      "description": "How many minutes of training/practice?"
+    },
+    "ai_summary": {
+      "type": "string",
+      "description": "AI-generated weekly trend summary"
+    }
+  },
+  "required": [
+    "client_email",
+    "log_date"
+  ]
+}

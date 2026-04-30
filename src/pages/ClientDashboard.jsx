@@ -10,7 +10,8 @@ import AppointmentsPanel from "@/components/clientdash/AppointmentsPanel";
 import VideosPanel from "@/components/clientdash/VideosPanel";
 import ProgressChart from "@/components/clientdash/ProgressChart";
 import DogProfilePanel from "@/components/clientdash/DogProfilePanel";
-import { LogOut, Dog, BookOpen, Calendar, Video, BarChart2, PawPrint, Loader2 } from "lucide-react";
+import BehaviorLogPanel from "@/components/clientdash/BehaviorLogPanel";
+import { LogOut, Dog, BookOpen, Calendar, Video, BarChart2, PawPrint, ClipboardList, Loader2 } from "lucide-react";
 
 const TABS = [
   { id: "schedule", label: "My Schedule", icon: Dog },
@@ -19,6 +20,7 @@ const TABS = [
   { id: "videos", label: "Videos", icon: Video },
   { id: "progress", label: "Progress", icon: BarChart2 },
   { id: "dogs", label: "My Dogs", icon: PawPrint },
+  { id: "logs", label: "Daily Log", icon: ClipboardList },
 ];
 
 export default function ClientDashboard() {
@@ -37,6 +39,12 @@ export default function ClientDashboard() {
   const { data: homework = [], isLoading: loadingHW } = useQuery({
     queryKey: hwQueryKey,
     queryFn: () => base44.entities.HomeworkTask.filter({ client_email: email }),
+    enabled: !!email,
+  });
+
+  const { data: dogProfiles = [] } = useQuery({
+    queryKey: ["dog-profiles", email],
+    queryFn: () => base44.entities.DogProfile.filter({ client_email: email }),
     enabled: !!email,
   });
 
@@ -194,6 +202,14 @@ export default function ClientDashboard() {
             <h2 className="font-bold text-lg mb-1">My Dogs</h2>
             <p className="text-sm text-muted-foreground mb-5">Help your trainer understand your dog better by filling in their details.</p>
             <DogProfilePanel clientEmail={email} />
+          </div>
+        )}
+
+        {tab === "logs" && (
+          <div>
+            <h2 className="font-bold text-lg mb-1">Daily Behavior Log</h2>
+            <p className="text-sm text-muted-foreground mb-5">Track your dog's daily progress and get an AI-generated weekly trend report every Monday.</p>
+            <BehaviorLogPanel clientEmail={email} dogProfiles={dogProfiles} />
           </div>
         )}
       </div>

@@ -1,0 +1,53 @@
+{
+  "name": "WeeklyReport",
+  "type": "object",
+  "properties": {
+    "client_email": {
+      "type": "string"
+    },
+    "dog_name": {
+      "type": "string"
+    },
+    "week_start": {
+      "type": "string",
+      "format": "date"
+    },
+    "week_end": {
+      "type": "string",
+      "format": "date"
+    },
+    "total_logs": {
+      "type": "number"
+    },
+    "practice_days": {
+      "type": "number"
+    },
+    "total_practice_minutes": {
+      "type": "number"
+    },
+    "mood_breakdown": {
+      "type": "object",
+      "description": "Count of each mood rating for the week"
+    },
+    "top_behaviors": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Most frequently logged behaviors"
+    },
+    "ai_summary": {
+      "type": "string",
+      "description": "AI-generated trend analysis and recommendations"
+    },
+    "trainer_notes": {
+      "type": "string",
+      "description": "Optional trainer commentary on the report"
+    }
+  },
+  "required": [
+    "client_email",
+    "week_start",
+    "week_end"
+  ]
+}
