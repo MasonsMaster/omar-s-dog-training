@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { base44 } from "@/api/base44Client";
+import { useAuth } from "@/lib/AuthContext";
 import { Button } from "@/components/ui/button";
-import { Calendar, Clock, ChevronLeft, ChevronRight, ExternalLink, Loader2, CheckCircle2 } from "lucide-react";
+import { Calendar, Clock, ChevronLeft, ChevronRight, ExternalLink, Loader2, CheckCircle2, AlertTriangle } from "lucide-react";
+import { useMoodWarning } from "@/hooks/useMoodWarning";
 
 function groupByDate(slots) {
   return slots.reduce((acc, slot) => {
@@ -31,6 +33,9 @@ export default function BookingStep({ ownerName }) {
   const [selectedDate, setSelectedDate] = useState(null);
   const [dateOffset, setDateOffset] = useState(0);
   const [booked, setBooked] = useState(false);
+
+  const { user } = useAuth();
+  const { flaggedDays, getWarning, hasData } = useMoodWarning(user?.email);
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["calendly-slots"],
@@ -127,14 +132,25 @@ export default function BookingStep({ ownerName }) {
               <div className="flex gap-2 flex-1">
                 {visibleDates.map(date => {
                   const { weekday, day, month } = formatDay(date);
+                  const dow = new Date(date).getDay();
+                  const isFlagged = hasData && flaggedDays.has(dow);
                   return (
                     <button key={date} onClick={() => setSelectedDate(date)}
-                      className={`flex-1 rounded-xl py-3 text-center border-2 transition-all ${
-                        selectedDate === date ? "border-primary bg-primary text-primary-foreground" : "border-border hover:border-primary/40 hover:bg-accent/30"
+                      className={`flex-1 rounded-xl py-3 text-center border-2 transition-all relative ${
+                        selectedDate === date
+                          ? "border-primary bg-primary text-primary-foreground"
+                          : isFlagged
+                          ? "border-amber-300 bg-amber-50 hover:border-amber-400"
+                          : "border-border hover:border-primary/40 hover:bg-accent/30"
                       }`}>
                       <div className="text-[10px] font-bold uppercase">{weekday}</div>
                       <div className="text-xl font-black leading-tight">{day}</div>
                       <div className="text-[10px] font-medium opacity-70">{month}</div>
+                      {isFlagged && selectedDate !== date && (
+                        <div className="absolute -top-1.5 -right-1.5 w-4 h-4 bg-amber-400 rounded-full flex items-center justify-center">
+                          <AlertTriangle className="w-2.5 h-2.5 text-white" />
+                        </div>
+                      )}
                     </button>
                   );
                 })}
@@ -147,6 +163,24 @@ export default function BookingStep({ ownerName }) {
           )}
         </div>
       )}
+
+      {/* Mood warning banner */}
+      {selectedDate && (() => {
+        const warning = getWarning(new Date(selectedDate).toISOString());
+        if (!warning) return null;
+        return (
+          <div className="flex items-start gap-3 bg-amber-50 border border-amber-300 rounded-xl px-4 py-3">
+            <AlertTriangle className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+            <div>
+              <div className="text-sm font-bold text-amber-800">Historically rough day for your dog</div>
+              <p className="text-xs text-amber-700 mt-0.5 leading-relaxed">
+                Based on {warning.total} behavior logs, <strong>{warning.pct}%</strong> of {warning.day} sessions were logged as "very rough." 
+                You can still book, but consider a different day for a smoother session.
+              </p>
+            </div>
+          </div>
+        );
+      })()}
 
       {/* Time slots */}
       {selectedDate && (
