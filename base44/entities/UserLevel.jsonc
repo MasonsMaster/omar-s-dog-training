@@ -3,8 +3,7 @@
   "type": "object",
   "properties": {
     "client_email": {
-      "type": "string",
-      "description": "Client email"
+      "type": "string"
     },
     "current_level": {
       "type": "number",
@@ -35,6 +34,21 @@
       "type": "number",
       "default": 0,
       "description": "Number of badges collected"
+    },
+    "current_streak": {
+      "type": "number",
+      "default": 0,
+      "description": "Current consecutive days of training"
+    },
+    "longest_streak": {
+      "type": "number",
+      "default": 0,
+      "description": "Longest streak ever achieved"
+    },
+    "last_activity_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Last date client logged training activity"
     }
   },
   "required": [

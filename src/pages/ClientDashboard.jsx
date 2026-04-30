@@ -19,7 +19,9 @@ import CalendlyBooking from "@/components/clientdash/CalendlyBooking";
 import PullToRefresh from "@/components/mobile/PullToRefresh";
 import LevelCard from "@/components/gamification/LevelCard";
 import BadgeGallery from "@/components/gamification/BadgeGallery";
-import { LogOut, Dog, BookOpen, Calendar, Video, BarChart2, PawPrint, ClipboardList, MessageSquare, Target, Loader2, Trophy, BookMarked } from "lucide-react";
+import StreakDisplay from "@/components/gamification/StreakDisplay";
+import Leaderboard from "@/components/gamification/Leaderboard";
+import { LogOut, Dog, BookOpen, Calendar, Video, BarChart2, PawPrint, ClipboardList, MessageSquare, Target, Loader2, Trophy, BookMarked, Flame } from "lucide-react";
 
 function UnreadBadge({ email }) {
   const { data: msgs = [] } = useQuery({
@@ -48,6 +50,7 @@ const TABS = [
   { id: "logs", label: "Daily Log", icon: ClipboardList },
   { id: "challenges", label: "Challenges", icon: Target },
   { id: "gamification", label: "Achievements", icon: Trophy },
+  { id: "leaderboard", label: "Leaderboard", icon: Flame },
   { id: "messages", label: "Messages", icon: MessageSquare },
 ];
 
@@ -288,7 +291,7 @@ export default function ClientDashboard() {
           <div>
             <h2 className="font-bold text-lg mb-1">Your Achievements</h2>
             <p className="text-sm text-muted-foreground mb-5">Track your training journey with levels, XP, and collectible badges.</p>
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
               <div className="lg:col-span-1">
                 <LevelCard clientEmail={email} />
               </div>
@@ -296,6 +299,18 @@ export default function ClientDashboard() {
                 <BadgeGallery clientEmail={email} />
               </div>
             </div>
+            <div>
+              <h3 className="font-bold text-lg mb-4">Your Streak</h3>
+              <StreakDisplay clientEmail={email} />
+            </div>
+          </div>
+        )}
+
+        {tab === "leaderboard" && (
+          <div>
+            <h2 className="font-bold text-lg mb-1">Compete & Climb</h2>
+            <p className="text-sm text-muted-foreground mb-5">See how you rank against other trainers. Build your streak, earn XP, and claim the top spot.</p>
+            <Leaderboard />
           </div>
         )}
 
