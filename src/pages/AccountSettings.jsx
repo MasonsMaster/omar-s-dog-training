@@ -5,7 +5,7 @@ import { useAuth } from "@/lib/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import SectionBadge from "@/components/shared/SectionBadge";
-import { User, Dog, CreditCard, Check, Loader2, Plus, Trash2, AlertCircle, ShieldCheck, LogOut } from "lucide-react";
+import { User, Dog, CreditCard, Check, Loader2, Plus, Trash2, AlertCircle, ShieldCheck, LogOut, Shield } from "lucide-react";
 import { toast } from "sonner";
 import { format, isPast } from "date-fns";
 

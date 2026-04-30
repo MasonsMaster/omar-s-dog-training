@@ -88,6 +88,8 @@
     @apply bg-background text-foreground font-body;
     overscroll-behavior: none;
     -webkit-overscroll-behavior: none;
+    -webkit-user-select: none;
+    user-select: none;
   }
   button, [role="button"], svg {
     @apply select-none;

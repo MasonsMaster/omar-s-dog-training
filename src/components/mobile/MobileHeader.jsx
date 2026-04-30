@@ -31,14 +31,14 @@ export default function MobileHeader() {
     <motion.div
       initial={{ y: -60 }}
       animate={{ y: 0 }}
-      className="fixed top-0 left-0 right-0 z-40 bg-background border-b border-border md:hidden"
+      className="fixed top-0 left-0 right-0 z-40 bg-background border-b border-border md:hidden select-none"
       style={{ paddingTop: "env(safe-area-inset-top)" }}
     >
       <div className="h-14 flex items-center justify-between px-4 gap-3">
         {!isRoot && (
           <button
             onClick={() => navigate(-1)}
-            className="flex items-center justify-center w-10 h-10 rounded-lg hover:bg-accent transition-colors active:bg-accent/70 user-select-none"
+            className="flex items-center justify-center w-10 h-10 rounded-lg hover:bg-accent transition-colors active:bg-accent/70 select-none"
             aria-label="Back"
           >
             <ChevronLeft className="w-6 h-6" />

@@ -21,10 +21,10 @@ export default function SiteLayout() {
       {/* Main content with mobile padding */}
       <main className="md:pt-0 pt-14 pb-20 md:pb-0">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -20 }}
-          transition={{ duration: 0.3 }}
+          initial={{ opacity: 0, x: 50 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: -50 }}
+          transition={{ duration: 0.25 }}
         >
           <Outlet />
         </motion.div>
