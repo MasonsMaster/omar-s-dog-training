@@ -10,6 +10,7 @@ const NAV_LINKS = [
   { to: "/booking", label: "Book Class" },
   { to: "/mason", label: "Mason AI" },
   { to: "/dashboard", label: "Dashboard" },
+  { to: "/pricing", label: "Pricing" },
   { to: "/contact", label: "Contact" },
   { to: "/leads", label: "🐾 Leads" },
 ];
