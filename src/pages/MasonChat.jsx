@@ -31,11 +31,16 @@ export default function MasonChat() {
           agent_name: "mason",
           metadata: { name: "Mason™ Client Intake" },
         });
+        console.log("[MasonChat Init] Conversation created:", conv);
+        if (!conv || !conv.id) {
+          console.error("[MasonChat Init] Invalid conversation response:", conv);
+          setInitializing(false);
+          return;
+        }
         setConversation(conv);
         setMessages(conv.messages || []);
       } catch (e) {
-        console.error(e);
-      } finally {
+        console.error("[MasonChat Init Error]", e);
         setInitializing(false);
       }
     };
