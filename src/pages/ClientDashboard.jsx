@@ -11,8 +11,9 @@ import VideosPanel from "@/components/clientdash/VideosPanel";
 import ProgressChart from "@/components/clientdash/ProgressChart";
 import DogProfilePanel from "@/components/clientdash/DogProfilePanel";
 import BehaviorLogPanel from "@/components/clientdash/BehaviorLogPanel";
+import BehaviorChallengesPanel from "@/components/clientdash/BehaviorChallengesPanel";
 import MessagingPanel from "@/components/clientdash/MessagingPanel";
-import { LogOut, Dog, BookOpen, Calendar, Video, BarChart2, PawPrint, ClipboardList, MessageSquare, Loader2 } from "lucide-react";
+import { LogOut, Dog, BookOpen, Calendar, Video, BarChart2, PawPrint, ClipboardList, MessageSquare, Target, Loader2 } from "lucide-react";
 
 function UnreadBadge({ email }) {
   const { data: msgs = [] } = useQuery({
@@ -36,6 +37,7 @@ const TABS = [
   { id: "progress", label: "Progress", icon: BarChart2 },
   { id: "dogs", label: "My Dogs", icon: PawPrint },
   { id: "logs", label: "Daily Log", icon: ClipboardList },
+  { id: "challenges", label: "Challenges", icon: Target },
   { id: "messages", label: "Messages", icon: MessageSquare },
 ];
 
@@ -234,6 +236,10 @@ export default function ClientDashboard() {
             <p className="text-sm text-muted-foreground mb-5">Track your dog's daily progress and get an AI-generated weekly trend report every Monday.</p>
             <BehaviorLogPanel clientEmail={email} dogProfiles={dogProfiles} />
           </div>
+        )}
+
+        {tab === "challenges" && (
+          <BehaviorChallengesPanel clientEmail={email} dogProfiles={dogProfiles} />
         )}
 
         {tab === "messages" && (

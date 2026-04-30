@@ -1,0 +1,51 @@
+{
+  "name": "BehaviorChallenge",
+  "type": "object",
+  "properties": {
+    "client_email": {
+      "type": "string"
+    },
+    "dog_name": {
+      "type": "string"
+    },
+    "challenge_name": {
+      "type": "string",
+      "description": "e.g. Leash Reactivity, Jumping on Guests"
+    },
+    "description": {
+      "type": "string",
+      "description": "Detailed description of the challenge"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "resolved",
+        "paused"
+      ],
+      "default": "active"
+    },
+    "improvement_trend": {
+      "type": "string",
+      "enum": [
+        "improving",
+        "stable",
+        "worsening",
+        "no_data"
+      ],
+      "default": "no_data",
+      "description": "Overall trend based on recent logs"
+    },
+    "target_goal": {
+      "type": "string",
+      "description": "What success looks like for this challenge"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "client_email",
+    "challenge_name"
+  ]
+}

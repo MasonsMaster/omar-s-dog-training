@@ -16,12 +16,14 @@ import NeedsAttentionFeed from "@/components/trainer/overview/NeedsAttentionFeed
 import QuickReplyInbox from "@/components/trainer/overview/QuickReplyInbox";
 import ProgramBuilder from "@/components/trainer/program-builder/ProgramBuilder";
 import UpcomingSessionsPanel from "@/components/trainer/UpcomingSessionsPanel";
-import { Settings, Calendar } from "lucide-react";
+import ChallengesManagementPanel from "@/components/trainer/ChallengesManagementPanel";
+import { Settings, Calendar, Target } from "lucide-react";
 
 const TABS = [
   { id: "overview", label: "Overview", icon: LayoutDashboard },
   { id: "programs", label: "Program Templates", icon: Settings },
   { id: "sessions", label: "Upcoming Sessions", icon: Calendar },
+  { id: "challenges", label: "Client Challenges", icon: Target },
   { id: "clients", label: "Active Clients", icon: Users },
   { id: "schedules", label: "Schedules", icon: ClipboardList },
   { id: "homework", label: "Homework", icon: BookOpen },
@@ -168,6 +170,15 @@ export default function TrainerHub() {
             <h2 className="font-bold text-lg mb-1">Upcoming Training Sessions</h2>
             <p className="text-sm text-muted-foreground mb-5">Your scheduled programs for the next 60 days. Sync any session to your Calendly calendar.</p>
             <UpcomingSessionsPanel />
+          </div>
+        )}
+
+        {/* Client Challenges Tab */}
+        {tab === "challenges" && (
+          <div>
+            <h2 className="font-bold text-lg mb-1">Client Behavior Challenges</h2>
+            <p className="text-sm text-muted-foreground mb-5">Monitor shared behavior challenges with daily logs, photos, and improvement tracking.</p>
+            <ChallengesManagementPanel clientEmails={clients.map(c => c.email)} />
           </div>
         )}
 

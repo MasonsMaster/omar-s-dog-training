@@ -1,0 +1,65 @@
+{
+  "name": "ChallengeLog",
+  "type": "object",
+  "properties": {
+    "challenge_id": {
+      "type": "string",
+      "description": "Reference to BehaviorChallenge"
+    },
+    "client_email": {
+      "type": "string"
+    },
+    "dog_name": {
+      "type": "string"
+    },
+    "log_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "behavior_observed": {
+      "type": "boolean",
+      "description": "Did the behavior happen today?"
+    },
+    "intensity": {
+      "type": "string",
+      "enum": [
+        "mild",
+        "moderate",
+        "severe"
+      ],
+      "description": "How intense was the behavior if it occurred?"
+    },
+    "trigger": {
+      "type": "string",
+      "description": "What triggered the behavior?"
+    },
+    "response": {
+      "type": "string",
+      "description": "How did you respond?"
+    },
+    "outcome": {
+      "type": "string",
+      "description": "What was the result?"
+    },
+    "photo_urls": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "URLs of uploaded photos"
+    },
+    "notes": {
+      "type": "string"
+    },
+    "is_trainer_log": {
+      "type": "boolean",
+      "default": false,
+      "description": "Was this logged by trainer or client?"
+    }
+  },
+  "required": [
+    "challenge_id",
+    "client_email",
+    "log_date"
+  ]
+}
