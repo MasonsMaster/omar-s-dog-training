@@ -24,6 +24,8 @@ import Leaderboard from "@/components/gamification/Leaderboard";
 import MonthlyReportDownload from "@/components/clientdash/MonthlyReportDownload";
 import SubscriptionSelector from "@/components/clientdash/SubscriptionSelector";
 import BillingOverview from "@/components/clientdash/BillingOverview";
+import HabitTracker from "@/components/clientdash/HabitTracker";
+import HabitTrendChart from "@/components/clientdash/HabitTrendChart";
 import { LogOut, Dog, BookOpen, Calendar, Video, BarChart2, PawPrint, ClipboardList, MessageSquare, Target, Loader2, Trophy, BookMarked, Flame, FileText, CreditCard } from "lucide-react";
 
 function UnreadBadge({ email }) {
@@ -53,6 +55,7 @@ const TABS = [
   { id: "billing", label: "Billing", icon: CreditCard },
   { id: "dogs", label: "My Dogs", icon: PawPrint },
   { id: "logs", label: "Daily Log", icon: ClipboardList },
+  { id: "habits", label: "Habit Tracker", icon: Target },
   { id: "challenges", label: "Challenges", icon: Target },
   { id: "gamification", label: "Achievements", icon: Trophy },
   { id: "leaderboard", label: "Leaderboard", icon: Flame },
@@ -307,6 +310,17 @@ export default function ClientDashboard() {
             <h2 className="font-bold text-lg mb-1">Daily Behavior Log</h2>
             <p className="text-sm text-muted-foreground mb-5">Track your dog's daily progress and get an AI-generated weekly trend report every Monday.</p>
             <BehaviorLogPanel clientEmail={email} dogProfiles={dogProfiles} />
+          </div>
+        )}
+
+        {tab === "habits" && (
+          <div>
+            <h2 className="font-bold text-lg mb-1">Daily Habit Tracker</h2>
+            <p className="text-sm text-muted-foreground mb-5">Log and visualize behavioral trends over time.</p>
+            <div className="space-y-6">
+              <HabitTracker clientEmail={email} dogProfiles={dogProfiles} />
+              <HabitTrendChart clientEmail={email} daysBack={30} />
+            </div>
           </div>
         )}
 

@@ -1,0 +1,54 @@
+{
+  "name": "BehaviorHabit",
+  "type": "object",
+  "properties": {
+    "client_email": {
+      "type": "string",
+      "description": "Client email"
+    },
+    "dog_name": {
+      "type": "string",
+      "description": "Dog's name"
+    },
+    "habit_name": {
+      "type": "string",
+      "description": "Behavior name (e.g., 'Barking', 'Leash Pulling', 'Jumping', 'Sitting')"
+    },
+    "log_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Date the behavior was logged"
+    },
+    "frequency": {
+      "type": "number",
+      "description": "How many times the behavior occurred (0-10+ scale)"
+    },
+    "intensity": {
+      "type": "string",
+      "enum": [
+        "mild",
+        "moderate",
+        "severe"
+      ],
+      "description": "Severity of the behavior"
+    },
+    "context": {
+      "type": "string",
+      "description": "Context when behavior occurred (e.g., 'During walk', 'At home', 'With strangers')"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Additional observations"
+    },
+    "is_improvement": {
+      "type": "boolean",
+      "default": false,
+      "description": "Mark as improvement or positive change"
+    }
+  },
+  "required": [
+    "client_email",
+    "habit_name",
+    "log_date"
+  ]
+}
