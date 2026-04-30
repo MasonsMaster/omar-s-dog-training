@@ -6,6 +6,7 @@ import Testimonials from "@/components/home/Testimonials.jsx";
 import FAQSection from "@/components/home/FAQSection";
 import ServiceArea from "@/components/home/ServiceArea";
 import BookingSection from "@/components/home/BookingSection";
+import CalendlyScheduler from "@/components/home/CalendlyScheduler";
 
 export default function Home() {
   return (
@@ -14,6 +15,7 @@ export default function Home() {
       <Guarantee />
       <ServicesSection />
       <BookingSection />
+      <CalendlyScheduler />
       <MembershipsSection />
       <Testimonials />
       <FAQSection />
