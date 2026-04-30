@@ -3,6 +3,8 @@ import { base44 } from "@/api/base44Client";
 import { useQueryClient } from "@tanstack/react-query";
 import { Check, Circle, ChevronDown, ChevronUp } from "lucide-react";
 import { toast } from "sonner";
+import HomeworkVideoUploader from "./HomeworkVideoUploader";
+import HomeworkVideoFeedback from "./HomeworkVideoFeedback";
 
 const difficultyColors = {
   easy: "bg-green-100 text-green-600",
@@ -38,13 +40,13 @@ export default function HomeworkList({ tasks, queryKey }) {
   return (
     <div className="space-y-3">
       {pending.map((task) => (
-        <TaskRow key={task.id} task={task} onToggle={toggle} expanded={expanded} setExpanded={setExpanded} />
+        <TaskRow key={task.id} task={task} onToggle={toggle} expanded={expanded} setExpanded={setExpanded} clientEmail={tasks[0]?.client_email} />
       ))}
       {done.length > 0 && (
         <div className="mt-4">
           <div className="text-xs font-bold text-muted-foreground tracking-widest uppercase mb-2">Completed</div>
           {done.map((task) => (
-            <TaskRow key={task.id} task={task} onToggle={toggle} expanded={expanded} setExpanded={setExpanded} />
+            <TaskRow key={task.id} task={task} onToggle={toggle} expanded={expanded} setExpanded={setExpanded} clientEmail={tasks[0]?.client_email} />
           ))}
         </div>
       )}
@@ -52,7 +54,7 @@ export default function HomeworkList({ tasks, queryKey }) {
   );
 }
 
-function TaskRow({ task, onToggle, expanded, setExpanded }) {
+function TaskRow({ task, onToggle, expanded, setExpanded, clientEmail }) {
   const isOpen = expanded === task.id;
   return (
     <div className={`border rounded-xl overflow-hidden transition-all ${task.completed ? "border-border opacity-60" : "border-border"}`}>
@@ -94,6 +96,8 @@ function TaskRow({ task, onToggle, expanded, setExpanded }) {
               📝 Your note: {task.notes}
             </div>
           )}
+          <HomeworkVideoUploader homeworkTask={task} clientEmail={clientEmail} />
+          <HomeworkVideoFeedback homeworkTask={task} />
         </div>
       )}
     </div>

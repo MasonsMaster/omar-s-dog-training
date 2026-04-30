@@ -19,6 +19,10 @@
       "type": "string",
       "description": "Optional reference to TrainingSchedule"
     },
+    "homework_id": {
+      "type": "string",
+      "description": "Optional reference to HomeworkTask for practice videos"
+    },
     "dog_name": {
       "type": "string"
     },
