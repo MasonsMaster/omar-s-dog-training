@@ -1,0 +1,48 @@
+{
+  "name": "Message",
+  "type": "object",
+  "properties": {
+    "client_email": {
+      "type": "string",
+      "description": "The client this conversation belongs to"
+    },
+    "schedule_id": {
+      "type": "string",
+      "description": "Optional reference to a TrainingSchedule (program thread)"
+    },
+    "log_id": {
+      "type": "string",
+      "description": "Optional reference to a BehaviorLog"
+    },
+    "log_date": {
+      "type": "string",
+      "description": "Date of linked behavior log, for display"
+    },
+    "sender_email": {
+      "type": "string"
+    },
+    "sender_name": {
+      "type": "string"
+    },
+    "is_trainer": {
+      "type": "boolean",
+      "default": false
+    },
+    "body": {
+      "type": "string"
+    },
+    "read_by_trainer": {
+      "type": "boolean",
+      "default": false
+    },
+    "read_by_client": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "required": [
+    "client_email",
+    "sender_email",
+    "body"
+  ]
+}

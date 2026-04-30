@@ -3,7 +3,8 @@ import { useQueryClient } from "@tanstack/react-query";
 import { base44 } from "@/api/base44Client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ChevronLeft, Dog, ClipboardList, BookOpen, BarChart2, Loader2, Check, Pencil, X, Plus, CheckCircle2, Circle } from "lucide-react";
+import { ChevronLeft, Dog, ClipboardList, BookOpen, BarChart2, MessageSquare, Loader2, Check, Pencil, X, Plus, CheckCircle2, Circle } from "lucide-react";
+import TrainerMessagingPanel from "@/components/trainer/TrainerMessagingPanel";
 import { format, parseISO } from "date-fns";
 import { toast } from "sonner";
 
@@ -16,6 +17,7 @@ const TABS = [
   { id: "homework", label: "Homework", icon: BookOpen },
   { id: "logs", label: "Behavior Logs", icon: ClipboardList },
   { id: "reports", label: "Weekly Reports", icon: BarChart2 },
+  { id: "messages", label: "Messages", icon: MessageSquare },
 ];
 
 export default function ClientDetailPanel({ client, onBack }) {
@@ -71,6 +73,13 @@ export default function ClientDetailPanel({ client, onBack }) {
         {tab === "homework" && <HomeworkTab homework={client.homework} clientEmail={client.email} />}
         {tab === "logs" && <LogsTab logs={client.logs} />}
         {tab === "reports" && <ReportsTab reports={client.reports} />}
+        {tab === "messages" && (
+          <TrainerMessagingPanel
+            clientEmail={client.email}
+            schedules={client.schedules}
+            logs={client.logs}
+          />
+        )}
       </div>
     </div>
   );

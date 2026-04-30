@@ -11,7 +11,22 @@ import VideosPanel from "@/components/clientdash/VideosPanel";
 import ProgressChart from "@/components/clientdash/ProgressChart";
 import DogProfilePanel from "@/components/clientdash/DogProfilePanel";
 import BehaviorLogPanel from "@/components/clientdash/BehaviorLogPanel";
-import { LogOut, Dog, BookOpen, Calendar, Video, BarChart2, PawPrint, ClipboardList, Loader2 } from "lucide-react";
+import MessagingPanel from "@/components/clientdash/MessagingPanel";
+import { LogOut, Dog, BookOpen, Calendar, Video, BarChart2, PawPrint, ClipboardList, MessageSquare, Loader2 } from "lucide-react";
+
+function UnreadBadge({ email }) {
+  const { data: msgs = [] } = useQuery({
+    queryKey: ["messages-unread", email],
+    queryFn: () => base44.entities.Message.filter({ client_email: email }),
+    enabled: !!email,
+    refetchInterval: 30000,
+    select: (all) => all.filter(m => m.is_trainer && !m.read_by_client),
+  });
+  if (!msgs.length) return null;
+  return (
+    <span className="bg-primary text-primary-foreground text-[10px] font-black px-1.5 py-0.5 rounded-full">{msgs.length}</span>
+  );
+}
 
 const TABS = [
   { id: "schedule", label: "My Schedule", icon: Dog },
@@ -21,6 +36,7 @@ const TABS = [
   { id: "progress", label: "Progress", icon: BarChart2 },
   { id: "dogs", label: "My Dogs", icon: PawPrint },
   { id: "logs", label: "Daily Log", icon: ClipboardList },
+  { id: "messages", label: "Messages", icon: MessageSquare },
 ];
 
 export default function ClientDashboard() {
@@ -45,6 +61,12 @@ export default function ClientDashboard() {
   const { data: dogProfiles = [] } = useQuery({
     queryKey: ["dog-profiles", email],
     queryFn: () => base44.entities.DogProfile.filter({ client_email: email }),
+    enabled: !!email,
+  });
+
+  const { data: behaviorLogs = [] } = useQuery({
+    queryKey: ["behavior-logs", email],
+    queryFn: () => base44.entities.BehaviorLog.filter({ client_email: email }, "-log_date", 30),
     enabled: !!email,
   });
 
@@ -134,6 +156,7 @@ export default function ClientDashboard() {
                   {pendingHW}
                 </span>
               )}
+              {id === "messages" && <UnreadBadge email={email} />}
             </button>
           ))}
         </div>
@@ -210,6 +233,19 @@ export default function ClientDashboard() {
             <h2 className="font-bold text-lg mb-1">Daily Behavior Log</h2>
             <p className="text-sm text-muted-foreground mb-5">Track your dog's daily progress and get an AI-generated weekly trend report every Monday.</p>
             <BehaviorLogPanel clientEmail={email} dogProfiles={dogProfiles} />
+          </div>
+        )}
+
+        {tab === "messages" && (
+          <div>
+            <h2 className="font-bold text-lg mb-1">Trainer Messages</h2>
+            <p className="text-sm text-muted-foreground mb-5">Message Omar directly. Link conversations to a training program or a specific behavior log.</p>
+            <MessagingPanel
+              clientEmail={email}
+              user={user}
+              schedules={schedules}
+              logs={behaviorLogs}
+            />
           </div>
         )}
       </div>
