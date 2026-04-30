@@ -1,0 +1,84 @@
+{
+  "name": "TrainingTemplate",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Template name (e.g., 'Puppy Basics', 'Leash Manners')"
+    },
+    "description": {
+      "type": "string",
+      "description": "Brief overview of what the program teaches"
+    },
+    "sessions_total": {
+      "type": "number",
+      "description": "Total number of sessions in the program"
+    },
+    "duration_weeks": {
+      "type": "number",
+      "description": "Estimated duration in weeks"
+    },
+    "price": {
+      "type": "number",
+      "description": "Program price in USD"
+    },
+    "milestones": {
+      "type": "array",
+      "description": "Key milestones and learning objectives",
+      "items": {
+        "type": "object",
+        "properties": {
+          "session": {
+            "type": "number",
+            "description": "Session number when this milestone is achieved"
+          },
+          "title": {
+            "type": "string",
+            "description": "Milestone title"
+          },
+          "description": {
+            "type": "string",
+            "description": "What the dog should accomplish"
+          }
+        }
+      }
+    },
+    "homework_tasks": {
+      "type": "array",
+      "description": "Template homework tasks",
+      "items": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Task title (e.g., 'Heel work 10 min daily')"
+          },
+          "description": {
+            "type": "string"
+          },
+          "difficulty": {
+            "type": "string",
+            "enum": [
+              "easy",
+              "medium",
+              "hard"
+            ]
+          },
+          "session_assign": {
+            "type": "number",
+            "description": "Which session to assign this task in"
+          }
+        }
+      }
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether this template is available for new assignments"
+    }
+  },
+  "required": [
+    "name",
+    "sessions_total"
+  ]
+}

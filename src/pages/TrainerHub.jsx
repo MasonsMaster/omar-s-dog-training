@@ -14,9 +14,12 @@ import { Search, Users, ClipboardList, BookOpen, BarChart2, TrendingUp, DollarSi
 import ActiveProgramsPanel from "@/components/trainer/overview/ActiveProgramsPanel";
 import NeedsAttentionFeed from "@/components/trainer/overview/NeedsAttentionFeed";
 import QuickReplyInbox from "@/components/trainer/overview/QuickReplyInbox";
+import ProgramBuilder from "@/components/trainer/program-builder/ProgramBuilder";
+import { Settings } from "lucide-react";
 
 const TABS = [
   { id: "overview", label: "Overview", icon: LayoutDashboard },
+  { id: "programs", label: "Program Templates", icon: Settings },
   { id: "clients", label: "Active Clients", icon: Users },
   { id: "schedules", label: "Schedules", icon: ClipboardList },
   { id: "homework", label: "Homework", icon: BookOpen },
@@ -151,6 +154,11 @@ export default function TrainerHub() {
       </div>
 
       <div className="max-w-6xl mx-auto px-6 py-8">
+
+        {/* Program Templates Tab */}
+        {tab === "programs" && (
+          <ProgramBuilder />
+        )}
 
         {/* Overview Tab */}
         {tab === "overview" && (

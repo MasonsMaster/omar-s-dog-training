@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { base44 } from "@/api/base44Client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ChevronLeft, Dog, ClipboardList, BookOpen, BarChart2, MessageSquare, Loader2, Check, Pencil, X, Plus, CheckCircle2, Circle } from "lucide-react";
+import { ChevronLeft, Dog, ClipboardList, BookOpen, BarChart2, MessageSquare, Loader2, Check, Pencil, X, Plus, CheckCircle2, Circle, Zap } from "lucide-react";
 import TrainerMessagingPanel from "@/components/trainer/TrainerMessagingPanel";
+import QuickAssignModal from "@/components/trainer/program-builder/QuickAssignModal";
 import { format, parseISO } from "date-fns";
 import { toast } from "sonner";
 
@@ -22,6 +23,12 @@ const TABS = [
 
 export default function ClientDetailPanel({ client, onBack }) {
   const [tab, setTab] = useState("overview");
+  const [assignModal, setAssignModal] = useState(null);
+
+  const { data: templates = [] } = useQuery({
+    queryKey: ["training-templates"],
+    queryFn: () => base44.entities.TrainingTemplate.filter({ is_active: true }),
+  });
 
   return (
     <div className="min-h-screen bg-background">
@@ -50,6 +57,23 @@ export default function ClientDetailPanel({ client, onBack }) {
               </div>
             ))}
           </div>
+
+          {/* Quick assign button */}
+          {templates.length > 0 && client.dogs.length > 0 && (
+            <div className="mt-6 p-4 bg-primary/10 border border-primary/20 rounded-xl flex items-start justify-between gap-3">
+              <div>
+                <div className="font-bold text-sm text-primary">Assign Program Template</div>
+                <p className="text-xs text-primary/60 mt-0.5">Instantly create schedules from your templates</p>
+              </div>
+              <Button
+                size="sm"
+                onClick={() => setAssignModal(client.dogs[0])}
+                className="rounded-lg font-bold gap-1 shrink-0 bg-primary hover:bg-primary/90"
+              >
+                <Zap className="w-3.5 h-3.5" /> Quick Assign
+              </Button>
+            </div>
+          )}
         </div>
       </div>
 
@@ -81,6 +105,20 @@ export default function ClientDetailPanel({ client, onBack }) {
           />
         )}
       </div>
+
+      {/* Quick assign modal */}
+      {assignModal && (
+        <QuickAssignModal
+          template={templates[0]}
+          clientEmail={client.email}
+          dogName={assignModal.name}
+          onClose={() => setAssignModal(null)}
+          onSuccess={() => {
+            // Refresh client data
+            window.location.reload();
+          }}
+        />
+      )}
     </div>
   );
 }
