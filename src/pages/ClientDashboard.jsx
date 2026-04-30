@@ -20,6 +20,7 @@ import CalendlySessionManager from "@/components/clientdash/CalendlySessionManag
 import PullToRefresh from "@/components/mobile/PullToRefresh";
 import SessionFeedbackPrompt from "@/components/clientdash/SessionFeedbackPrompt";
 import GraduationCertificates from "@/components/clientdash/GraduationCertificates";
+import BadgeCabinet from "@/components/gamification/BadgeCabinet";
 import LevelCard from "@/components/gamification/LevelCard";
 import BadgeGallery from "@/components/gamification/BadgeGallery";
 import StreakDisplay from "@/components/gamification/StreakDisplay";
@@ -349,6 +350,11 @@ export default function ClientDashboard() {
               <h3 className="font-bold text-base mb-4">Graduation Certificates</h3>
               <GraduationCertificates clientEmail={email} />
             </div>
+            <div className="mb-8">
+              <h3 className="font-bold text-lg mb-4">Badge Cabinet</h3>
+              <BadgeCabinet clientEmail={email} />
+            </div>
+
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
               <div className="lg:col-span-1">
                 <LevelCard clientEmail={email} />
