@@ -26,7 +26,9 @@ import SubscriptionSelector from "@/components/clientdash/SubscriptionSelector";
 import BillingOverview from "@/components/clientdash/BillingOverview";
 import HabitTracker from "@/components/clientdash/HabitTracker";
 import HabitTrendChart from "@/components/clientdash/HabitTrendChart";
-import { LogOut, Dog, BookOpen, Calendar, Video, BarChart2, PawPrint, ClipboardList, MessageSquare, Target, Loader2, Trophy, BookMarked, Flame, FileText, CreditCard } from "lucide-react";
+import RealtimeMessaging from "@/components/messaging/RealtimeMessaging";
+import QuickTips from "@/components/messaging/QuickTips";
+import { LogOut, Dog, BookOpen, Calendar, Video, BarChart2, PawPrint, ClipboardList, MessageSquare, Target, Loader2, Trophy, BookMarked, Flame, FileText, CreditCard, Lightbulb } from "lucide-react";
 
 function UnreadBadge({ email }) {
   const { data: msgs = [] } = useQuery({
@@ -59,7 +61,8 @@ const TABS = [
   { id: "challenges", label: "Challenges", icon: Target },
   { id: "gamification", label: "Achievements", icon: Trophy },
   { id: "leaderboard", label: "Leaderboard", icon: Flame },
-  { id: "messages", label: "Messages", icon: MessageSquare },
+  { id: "messages", label: "Trainer Chat", icon: MessageSquare },
+  { id: "tips", label: "Quick Tips", icon: Lightbulb },
 ];
 
 export default function ClientDashboard() {
@@ -357,14 +360,21 @@ export default function ClientDashboard() {
 
         {tab === "messages" && (
           <div>
-            <h2 className="font-bold text-lg mb-1">Trainer Messages</h2>
-            <p className="text-sm text-muted-foreground mb-5">Message Omar directly. Link conversations to a training program or a specific behavior log.</p>
-            <MessagingPanel
+            <h2 className="font-bold text-lg mb-1">Real-Time Trainer Chat</h2>
+            <p className="text-sm text-muted-foreground mb-5">Get immediate support, ask questions, and discuss training hurdles with Omar.</p>
+            <RealtimeMessaging
               clientEmail={email}
-              user={user}
-              schedules={schedules}
-              logs={behaviorLogs}
+              currentUser={user}
+              isTrainer={false}
             />
+          </div>
+        )}
+
+        {tab === "tips" && (
+          <div>
+            <h2 className="font-bold text-lg mb-1">Quick Training Tips</h2>
+            <p className="text-sm text-muted-foreground mb-5">Curated training strategies and quick fixes from Omar to solve specific behavioral challenges.</p>
+            <QuickTips clientEmail={email} />
           </div>
         )}
       </div>
