@@ -8,7 +8,8 @@ import SectionBadge from "@/components/shared/SectionBadge";
 import ClientRow from "@/components/trainer/ClientRow";
 import ClientDetailPanel from "@/components/trainer/ClientDetailPanel";
 import AnalyticsDashboard from "@/components/trainer/AnalyticsDashboard";
-import { Search, Users, ClipboardList, BookOpen, BarChart2, TrendingUp, Loader2, Shield } from "lucide-react";
+import BillingView from "@/components/trainer/BillingView";
+import { Search, Users, ClipboardList, BookOpen, BarChart2, TrendingUp, DollarSign, Loader2, Shield } from "lucide-react";
 
 const TABS = [
   { id: "clients", label: "Active Clients", icon: Users },
@@ -16,6 +17,7 @@ const TABS = [
   { id: "homework", label: "Homework", icon: BookOpen },
   { id: "reports", label: "Weekly Reports", icon: BarChart2 },
   { id: "analytics", label: "Analytics", icon: TrendingUp },
+  { id: "billing", label: "Billing", icon: DollarSign },
 ];
 
 export default function TrainerHub() {
@@ -192,6 +194,17 @@ export default function TrainerHub() {
               homework={homework}
               behaviorLogs={behaviorLogs}
               reports={reports}
+            />
+          </div>
+        )}
+
+        {/* Billing Tab */}
+        {tab === "billing" && (
+          <div>
+            <h2 className="font-bold text-lg mb-6">Billing & Invoices</h2>
+            <BillingView
+              schedules={schedules}
+              clientEmails={clients.map(c => c.email)}
             />
           </div>
         )}

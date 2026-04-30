@@ -1,0 +1,52 @@
+{
+  "name": "Invoice",
+  "type": "object",
+  "properties": {
+    "client_email": {
+      "type": "string"
+    },
+    "schedule_id": {
+      "type": "string",
+      "description": "Reference to TrainingSchedule"
+    },
+    "program": {
+      "type": "string"
+    },
+    "dog_name": {
+      "type": "string"
+    },
+    "amount": {
+      "type": "number",
+      "description": "Invoice amount in USD"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "paid",
+        "overdue",
+        "waived"
+      ],
+      "default": "pending"
+    },
+    "due_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "paid_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "notes": {
+      "type": "string"
+    },
+    "reminder_sent_at": {
+      "type": "string",
+      "description": "ISO timestamp of last reminder email sent"
+    }
+  },
+  "required": [
+    "client_email",
+    "amount"
+  ]
+}
