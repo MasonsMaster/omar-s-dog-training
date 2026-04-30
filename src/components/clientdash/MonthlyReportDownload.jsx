@@ -12,6 +12,7 @@ export default function MonthlyReportDownload({ clientEmail }) {
     setDownloading(true);
     try {
       const res = await base44.functions.invoke("generateMonthlyReport", {
+        clientEmail,
         monthOffset: selectedMonth,
       });
 
