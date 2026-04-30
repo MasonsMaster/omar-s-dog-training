@@ -59,6 +59,14 @@ export default function QuickAssignModal({ template, clientEmail, dogName, onClo
         due_date: form.start_date,
       });
 
+      // Sync to Calendly
+      try {
+        await base44.functions.invoke('syncTrainingToCalendly', { schedule });
+      } catch (error) {
+        console.error("Calendly sync failed:", error);
+        // Don't fail the entire assignment if calendar sync fails
+      }
+
       qc.invalidateQueries({ queryKey: ["all-schedules"] });
       qc.invalidateQueries({ queryKey: ["all-homework"] });
       qc.invalidateQueries({ queryKey: ["all-invoices"] });

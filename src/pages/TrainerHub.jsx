@@ -15,11 +15,13 @@ import ActiveProgramsPanel from "@/components/trainer/overview/ActiveProgramsPan
 import NeedsAttentionFeed from "@/components/trainer/overview/NeedsAttentionFeed";
 import QuickReplyInbox from "@/components/trainer/overview/QuickReplyInbox";
 import ProgramBuilder from "@/components/trainer/program-builder/ProgramBuilder";
-import { Settings } from "lucide-react";
+import UpcomingSessionsPanel from "@/components/trainer/UpcomingSessionsPanel";
+import { Settings, Calendar } from "lucide-react";
 
 const TABS = [
   { id: "overview", label: "Overview", icon: LayoutDashboard },
   { id: "programs", label: "Program Templates", icon: Settings },
+  { id: "sessions", label: "Upcoming Sessions", icon: Calendar },
   { id: "clients", label: "Active Clients", icon: Users },
   { id: "schedules", label: "Schedules", icon: ClipboardList },
   { id: "homework", label: "Homework", icon: BookOpen },
@@ -158,6 +160,15 @@ export default function TrainerHub() {
         {/* Program Templates Tab */}
         {tab === "programs" && (
           <ProgramBuilder />
+        )}
+
+        {/* Upcoming Sessions Tab */}
+        {tab === "sessions" && (
+          <div>
+            <h2 className="font-bold text-lg mb-1">Upcoming Training Sessions</h2>
+            <p className="text-sm text-muted-foreground mb-5">Your scheduled programs for the next 60 days. Sync any session to your Calendly calendar.</p>
+            <UpcomingSessionsPanel />
+          </div>
         )}
 
         {/* Overview Tab */}
