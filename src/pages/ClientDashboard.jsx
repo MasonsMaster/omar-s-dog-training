@@ -9,7 +9,8 @@ import HomeworkList from "@/components/clientdash/HomeworkList";
 import AppointmentsPanel from "@/components/clientdash/AppointmentsPanel";
 import VideosPanel from "@/components/clientdash/VideosPanel";
 import ProgressChart from "@/components/clientdash/ProgressChart";
-import { LogOut, Dog, BookOpen, Calendar, Video, BarChart2, Loader2 } from "lucide-react";
+import DogProfilePanel from "@/components/clientdash/DogProfilePanel";
+import { LogOut, Dog, BookOpen, Calendar, Video, BarChart2, PawPrint, Loader2 } from "lucide-react";
 
 const TABS = [
   { id: "schedule", label: "My Schedule", icon: Dog },
@@ -17,6 +18,7 @@ const TABS = [
   { id: "appointments", label: "Appointments", icon: Calendar },
   { id: "videos", label: "Videos", icon: Video },
   { id: "progress", label: "Progress", icon: BarChart2 },
+  { id: "dogs", label: "My Dogs", icon: PawPrint },
 ];
 
 export default function ClientDashboard() {
@@ -184,6 +186,14 @@ export default function ClientDashboard() {
           <div>
             <h2 className="font-bold text-lg mb-5">Training Progress</h2>
             <ProgressChart schedules={schedules} homework={homework} />
+          </div>
+        )}
+
+        {tab === "dogs" && (
+          <div>
+            <h2 className="font-bold text-lg mb-1">My Dogs</h2>
+            <p className="text-sm text-muted-foreground mb-5">Help your trainer understand your dog better by filling in their details.</p>
+            <DogProfilePanel clientEmail={email} />
           </div>
         )}
       </div>

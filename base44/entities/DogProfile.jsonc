@@ -1,0 +1,45 @@
+{
+  "name": "DogProfile",
+  "type": "object",
+  "properties": {
+    "client_email": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "breed": {
+      "type": "string"
+    },
+    "age_years": {
+      "type": "number"
+    },
+    "weight_lbs": {
+      "type": "number"
+    },
+    "photo_url": {
+      "type": "string"
+    },
+    "behavioral_focus": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "e.g. Leash reactivity, Aggression, Recall"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Additional context for trainer"
+    },
+    "neutered": {
+      "type": "boolean"
+    },
+    "vaccination_current": {
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "client_email",
+    "name"
+  ]
+}
