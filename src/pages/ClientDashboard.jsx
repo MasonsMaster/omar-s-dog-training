@@ -21,7 +21,8 @@ import LevelCard from "@/components/gamification/LevelCard";
 import BadgeGallery from "@/components/gamification/BadgeGallery";
 import StreakDisplay from "@/components/gamification/StreakDisplay";
 import Leaderboard from "@/components/gamification/Leaderboard";
-import { LogOut, Dog, BookOpen, Calendar, Video, BarChart2, PawPrint, ClipboardList, MessageSquare, Target, Loader2, Trophy, BookMarked, Flame } from "lucide-react";
+import MonthlyReportDownload from "@/components/clientdash/MonthlyReportDownload";
+import { LogOut, Dog, BookOpen, Calendar, Video, BarChart2, PawPrint, ClipboardList, MessageSquare, Target, Loader2, Trophy, BookMarked, Flame, FileText } from "lucide-react";
 
 function UnreadBadge({ email }) {
   const { data: msgs = [] } = useQuery({
@@ -46,6 +47,7 @@ const TABS = [
   { id: "videos", label: "Videos", icon: Video },
   { id: "resources", label: "Resources", icon: BookOpen },
   { id: "progress", label: "Progress", icon: BarChart2 },
+  { id: "reports", label: "Reports", icon: FileText },
   { id: "dogs", label: "My Dogs", icon: PawPrint },
   { id: "logs", label: "Daily Log", icon: ClipboardList },
   { id: "challenges", label: "Challenges", icon: Target },
@@ -264,6 +266,14 @@ export default function ClientDashboard() {
             <h2 className="font-bold text-lg mb-1">Training Progress</h2>
             <p className="text-sm text-muted-foreground mb-5">Track your dog's level, hours trained, ratings, and achievement badges.</p>
             <ProgressDashboard clientEmail={email} dogProfiles={dogProfiles} />
+          </div>
+        )}
+
+        {tab === "reports" && (
+          <div>
+            <h2 className="font-bold text-lg mb-1">Training Reports</h2>
+            <p className="text-sm text-muted-foreground mb-5">Download comprehensive monthly summaries of your progress and insights.</p>
+            <MonthlyReportDownload clientEmail={email} />
           </div>
         )}
 
