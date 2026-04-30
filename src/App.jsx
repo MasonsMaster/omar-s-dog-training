@@ -18,6 +18,7 @@ import Leads from '@/pages/Leads';
 import Contact from '@/pages/Contact';
 import Pricing from '@/pages/Pricing';
 import ClientDashboard from '@/pages/ClientDashboard';
+import TrainerHub from '@/pages/TrainerHub';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -58,6 +59,7 @@ const AuthenticatedApp = () => {
         <Route path="/contact" element={<Contact />} />
         <Route path="/pricing" element={<Pricing />} />
         <Route path="/my-dashboard" element={<ClientDashboard />} />
+        <Route path="/trainer" element={<TrainerHub />} />
         <Route path="*" element={<PageNotFound />} />
       </Route>
     </Routes>

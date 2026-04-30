@@ -14,6 +14,7 @@ const NAV_LINKS = [
   { to: "/pricing", label: "Pricing" },
   { to: "/contact", label: "Contact" },
   { to: "/leads", label: "🐾 Leads" },
+  { to: "/trainer", label: "🎓 Trainer Hub" },
 ];
 
 export default function Navbar() {
