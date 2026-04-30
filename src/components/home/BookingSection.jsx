@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import SectionBadge from "@/components/shared/SectionBadge";
 import { ArrowRight, Clock } from "lucide-react";
 
-const MAX_SPOTS = 6;
+const MAX_SPOTS = 6; // max capacity per session
 
 function SpotsBadge({ time }) {
   const { data: leads = [] } = useQuery({
