@@ -43,6 +43,35 @@
       "type": "number",
       "description": "How many minutes of training/practice?"
     },
+    "video_url": {
+      "type": "string",
+      "description": "URL of uploaded practice video"
+    },
+    "video_comments": {
+      "type": "array",
+      "description": "Timestamp-based trainer feedback on video",
+      "items": {
+        "type": "object",
+        "properties": {
+          "timestamp": {
+            "type": "number",
+            "description": "Video timestamp in seconds"
+          },
+          "text": {
+            "type": "string"
+          },
+          "author": {
+            "type": "string"
+          },
+          "author_email": {
+            "type": "string"
+          },
+          "created_at": {
+            "type": "string"
+          }
+        }
+      }
+    },
     "ai_summary": {
       "type": "string",
       "description": "AI-generated weekly trend summary"
