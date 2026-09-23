@@ -1,0 +1,39 @@
+{
+  "name": "Check and Award Badges",
+  "description": "",
+  "trigger": {
+    "condition": "${ (.trigger.data.client_email != null and .trigger.data.client_email != \"\" and .trigger.data.client_email != [] and .trigger.data.client_email != {}) }",
+    "config": {
+      "trigger_type": "entity",
+      "events": [
+        "update"
+      ],
+      "entity_name": "TrainingSchedule"
+    }
+  },
+  "definition": {
+    "document": {
+      "dsl": "1.0.0",
+      "name": "check_and_award_badges",
+      "version": "1.0",
+      "namespace": "base44"
+    },
+    "do": [
+      {
+        "run_function": {
+          "call": "invoke_backend_function",
+          "with": {
+            "function_name": "checkAndAwardBadges",
+            "args": {
+              "client_email": "{{data.client_email}}"
+            }
+          },
+          "then": "end"
+        }
+      }
+    ]
+  },
+  "x-base44-migrated-from-automation": {
+    "legacy_payload_function": "checkAndAwardBadges"
+  }
+}
